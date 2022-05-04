@@ -49,16 +49,16 @@ Express.deleteYear = year => {
 //MONTH SEGMENT
 Express.getMonths = year => {
     const url = `${baseUrl}/years/${year}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress error');
-        return;
     }, networkError => {
         console.log(networkError.message);
     }).then(jsonResponse => {
-        return jsonResponse;
+        console.log(jsonResponse.months)
+        return jsonResponse.months;
     }).catch(error => {
         console.log(error);
     })
@@ -68,8 +68,10 @@ Express.createMonth = (year, month) => {
     const url = `${baseUrl}/years/${year}`;
     const fetchOptions = {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({month: month})
     };
+    console.log(month);
     fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
@@ -85,8 +87,9 @@ Express.createMonth = (year, month) => {
 
 Express.deleteMonth = (year, id) => {
     const url = `${baseUrl}/years/${year}`;
-    const fetchOptions = {method: "DELETE"};
-    fetch(url, fetchOptions).then(response => {
+    const fetchOptions = {method: "DELETE", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({monthID: id})};
+    console.log(id);
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             alert('Successfully Deleted');
             return;
@@ -462,4 +465,4 @@ Express.updateYearReviewSubjective = (year, updatedTextbox) => {
     }).catch(error => console.log(error));
 };
 
-module.exports = Express;
+export default Express;
