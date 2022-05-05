@@ -101,49 +101,48 @@ Express.deleteMonth = (year, id) => {
 
 //WEEK SEGMENT
 
-Express.getWeeks = (year, monthId) => {
-    const url = `${baseUrl}/years/${year}/month?year=${year}&monthId=${monthId}`;
-    fetch(url).then(response => {
+Express.getWeeks = (year, monthID) => {
+    const url = `${baseUrl}/years/${year}/month?monthID=${monthID}`;
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress Error');
-        return;
     }, networkError => console.log(networkError.message))
     .then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.weeks;
     }).catch(error => console.log(error))
 };
 
-Express.createWeek = (year, week, date, monthId) => {
+Express.createWeek = (year, week) => {
     const url = `${baseUrl}/years/${year}/month`; //?yearFK=${year}&week=${date}&monthId=${monthId}
     const fetchOptions = {
         method: "POST",
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({week: week}) //readjust frontend to give one object (week) with required info
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            return response.json();
+            return true;
         }
         console.log('fetchExpress Error');
     }, networkError => console.log(networkError.message))
-    .then(jsonResponse => {
-        return jsonResponse;
-    }).catch(error => console.log(error))
+    .catch(error => console.log(error))
 };
 
-Express.deleteWeek = (year, weekId) => {
+Express.deleteWeek = (year, weekID) => {
     const url = `${baseUrl}/years/${year}/month`;
     const fetchOptions = {
         method: 'DELETE',
-        body: JSON.stringify({weekId: weekId})
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({weekID: weekID})
     }
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             alert('Succesfully Deleted');
             return;
         }
-        return; //decide how you want deletion flow. At what point does user confirm deletion?
+        return 'error 400'; //decide how you want deletion flow. At what point does user confirm deletion?
     }, networkError => console.log(networkError.message));
 };
 
