@@ -86,7 +86,7 @@ function Months({match:{params:{year}}}) {
             }
             return (
                 <div className="deleteContainer">
-                    <Link className="link" to={`/${month.yearFK}/${month.month}${month.id}`}
+                    <Link className="link" to={`/${month.year}/${month.month}${month.id}`}
                         key={month.id}>
                         <h3>{month.month}</h3>
                     </Link>
