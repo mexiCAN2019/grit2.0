@@ -5,6 +5,7 @@ import Months from './Components/month/months';
 import Dashboard from './Components/dashboard';
 import Login from './Components/login';
 import Weeks from './Components/weeks/weeks';
+import Week from './Components/week/week';
 // import { useUser } from './Util/react-local-spa';
 
 
@@ -69,6 +70,7 @@ const initialRoutes = () => {
         <Route path="/:year" exact component={Months} />
         {/* <Route path="/:year/yearReview" component={YearReview} /> */}
         <Route path="/:year/:monthAndMonthID" exact component={Weeks} />
+        <Route path="/:year/:monthAndMonthID/:weekID" exact component={Week} />
         <Route path='/dashboard' exact route='dashboard' component={Dashboard} />
       </Switch>
     </div>

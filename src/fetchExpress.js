@@ -147,9 +147,9 @@ Express.deleteWeek = (year, weekID) => {
 };
 
 //TIMELOGGER SEGMENT
-Express.getTables = (year, weekId) => {
-    const url = `${baseUrl}/years/${year}/month/table?weekId=${weekId}`;
-    fetch(url).then(response => {
+Express.getTables = (year, weekID) => {
+    const url = `${baseUrl}/years/${year}/month/table?weekID=${weekID}`;
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -157,14 +157,15 @@ Express.getTables = (year, weekId) => {
         return;
     }, networkError => console.log(networkError.message))
     .then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.tables;
     }).catch(error => console.log(error));
 };
 
 Express.deleteTable = (year, id) => {
     const url = `${baseUrl}/years/${year}/month/table?id=${id}`;
     const fetchOptions = {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'}
     };
     fetch(url, fetchOptions).then(response => {
         if(response.ok){
@@ -180,35 +181,32 @@ Express.createTable = (year, newTable) => {
     const url = `${baseUrl}/years/${year}/month/table`;
     const fetchOptions = {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({table: newTable})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            return response.json();
+            return true;
         }
         console.log('fetchExpress Error');
-        return;
     }, networkError => console.log(networkError.message))
-    .then(jsonResponse => {
-        return jsonResponse;
-    }).catch(error => console.log(error));
+    .catch(error => console.log(error));
 };
 
 Express.updateTable = (year, updatedTable) => {
     const url = `${baseUrl}/years/${year}/month/table`;
     const fetchOptions = {
         method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({table: updatedTable})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            return response.json();
+            alert('Time Successfully Updated');
+            return;
         }
         alert('Error: Total Goal Hours must contain value, Name of skill cannot be left blank');
         return;
-    })
-    .then(jsonResponse => {
-        return jsonResponse;
     }).catch(error => console.log(error));
 };
 
