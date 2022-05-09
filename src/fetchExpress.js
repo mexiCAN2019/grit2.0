@@ -212,16 +212,16 @@ Express.updateTable = (year, updatedTable) => {
 
 //CHECKBOX SECTION
 
-Express.getCheckboxes = (year, weekId) => {
-    const url = `${baseUrl}/years/${year}/month/checkbox?weekId=${weekId}`;
-    fetch(url).then(response => {
+Express.getCheckboxes = (year, weekID) => {
+    const url = `${baseUrl}/years/${year}/month/checkbox?weekID=${weekID}`;
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress failed');
         return;
     }).then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.checkboxes;
     }).catch(error => console.log(error));
 };
 
@@ -229,16 +229,14 @@ Express.createCheckbox = (year, newCheckbox) => {
     const url = `${baseUrl}/years/${year}/month/checkbox`;
     const fetchOptions = {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({checkbox: newCheckbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            return response.json();
+            return true;
         }
         console.log('fetchExpress failed');
-        return;
-    }).then(jsonResponse => {
-        return jsonResponse;
     }).catch(error => console.log(error));
 };
 
@@ -246,31 +244,32 @@ Express.updateCheckbox = (year, updatedCheckbox) => {
     const url = `${baseUrl}/year/${year}/month/checkbox`;
     const fetchOptions = {
         method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({checkbox: updatedCheckbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress failed')
-        return;
     }).then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.checkbox;
     }).catch(error => console.log(error));
 };
 
 Express.deleteCheckbox = (year, id) => {
     const url = `${baseUrl}/years/${year}/month/checkbox?id=${id}`;
-    fetch(url, {method: 'DELETE'}).then(response => {
+    return fetch(url, {method: 'DELETE', headers: {'Content-Type': 'application/json'}}).then(response => {
         if(response.ok){
             alert('Successfully Deleted')
         }
     }).catch(error => console.log(error));
 };
 
+//Textboxes
 Express.getSubjectives = (year, weekId) => {
     const url = `${baseUrl}/years/${year}/month/subjective?weekId=${weekId}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -285,9 +284,10 @@ Express.createSubjective = (year, newTextbox) => {
     const url = `${baseUrl}/years/${year}/month/subjective`;
     const fetchOptions = {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({textbox: newTextbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -301,9 +301,10 @@ Express.updateSubjective = (year, updatedTextbox) => {
     const url = `${baseUrl}/years/${year}/month/subjective`;
     const fetchOptions = {
         method: "PUT",
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({textbox: updatedTextbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -316,7 +317,7 @@ Express.updateSubjective = (year, updatedTextbox) => {
 Express.deleteSubjective = (year, id) => {
     const url = `${baseUrl}/years/${year}/month/subjective?id=${id}`;
     const fetchOptions = {method: 'DELETE'};
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             alert('Successfully Deleted');
         }
@@ -327,7 +328,7 @@ Express.deleteSubjective = (year, id) => {
  
 Express.getTableSkills = (year, monthId) => {
     const url = `${baseUrl}/years/${year}/month/monthReview/table/${monthId}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -339,7 +340,7 @@ Express.getTableSkills = (year, monthId) => {
 
 Express.getCheckboxSkills = (year, monthId) => {
     const url = `${baseUrl}/years/${year}/month/monthReview/checkbox/${monthId}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -355,7 +356,7 @@ Express.createMonthReviewSubjective = (year, newTextbox) => {
         method: 'POST',
         body: JSON.stringify({textbox: newTextbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -367,7 +368,7 @@ Express.createMonthReviewSubjective = (year, newTextbox) => {
 
 Express.getMonthReviewSubjective = (year, monthId) => {
     const url = `${baseUrl}/years/${year}/month/monthReview/subjective/${monthId}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -383,7 +384,7 @@ Express.updateReviewSubjective = (year, updatedTextbox) => {
         method: 'PUT',
         body: JSON.stringify({textbox: updatedTextbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -396,7 +397,7 @@ Express.updateReviewSubjective = (year, updatedTextbox) => {
 // YEAR REVIEW SECTION
 Express.getYearTableSkills = year => {
     const url = `${baseUrl}/years/${year}/yearReview/table/${year}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -408,7 +409,7 @@ Express.getYearTableSkills = year => {
 
 Express.getYearCheckboxSkills = year => {
     const url = `${baseUrl}/years/${year}/yearReview/checkbox/${year}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -424,7 +425,7 @@ Express.createYearReviewSubjective = (year, newTextbox) => {
         method: 'POST',
         body: JSON.stringify({textbox: newTextbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -436,7 +437,7 @@ Express.createYearReviewSubjective = (year, newTextbox) => {
 
 Express.getYearReviewSubjective = year => {
     const url = `${baseUrl}/years/${year}/yearReview/subjective/${year}`;
-    fetch(url).then(response => {
+    return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
@@ -452,7 +453,7 @@ Express.updateYearReviewSubjective = (year, updatedTextbox) => {
         method: 'PUT',
         body: JSON.stringify({textbox: updatedTextbox})
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return response.json();
         }

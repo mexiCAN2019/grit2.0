@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FormList from './formList';
-import Table from './table';
+import Checkbox from './checkbox';
 import Express from './../../fetchExpress';
 
 function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
@@ -13,6 +13,7 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
 
     useEffect(() => {
         Express.getTables(year, weekID).then(tables => setTables(tables));
+        Express.getCheckboxes(year, weekID).then(checkboxes => setCheckBoxes(checkboxes));
     }, []);
 
     const handleActivityChange = (e) => {
@@ -40,15 +41,11 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
                     });
                     break;
                 case 'checkbox':
-                    // setCheckboxId(prevId => prevId + 1); //state of tableId will actuall be one more than what the key will be for the table. Don't know why
-                    // setCheckBoxes(prevCheckbox => {
-                    //     return [ ...prevCheckbox, {activity: skillName, id: checkboxId} ]
-                    // });
                     const newCheckbox = {
                         skillName: skillName.toUpperCase(),
-                        weekId: weekID,
-                        monthId: monthID,
-                        yearFK: year,
+                        weekID: weekID,
+                        monthID: monthID,
+                        year: year,
                         monday: 0,
                         tuesday: 0,
                         wednesday: 0,
@@ -57,7 +54,11 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
                         saturday: 0,
                         sunday: 0
                     };
-                    Express.createCheckbox(year, newCheckbox).then(createdCheckbox => setCheckBoxes(savedCheckboxes => [...savedCheckboxes, createdCheckbox]));
+                    Express.createCheckbox(year, newCheckbox).then(responseOk => {
+                        if(responseOk){
+                            Express.getCheckboxes(year, weekID).then(checkboxes => setCheckBoxes(checkboxes));
+                        }
+                    });
                     break;
                 case 'subjective':
                     // setSubjectiveId(prevId => prevId + 1); //state of tableId will actuall be one more than what the key will be for the table. Don't know wh
@@ -90,6 +91,7 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
                 } 
                 break;
             case 'checkbox':
+                Express.deleteCheckbox(year, activity.id);
                 setCheckBoxes(currentCheckbox => {
                     return currentCheckbox.filter(checkbox => checkbox.id !== activity.id)
                 });
@@ -130,9 +132,9 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
             {renderDropdown()}
 
             <FormList tables={tables}
+                      checkboxes={checkboxes}
                       year={year}
                       onDelete={deleteForm} />
-            {/* <Table year={year} /> */}
         </div>
 
     )
