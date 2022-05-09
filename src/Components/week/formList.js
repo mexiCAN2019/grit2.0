@@ -1,8 +1,9 @@
 import React from 'react';
 import Table from './table';
 import Checkbox from './checkbox';
+import Textbox from './textbox';
 
-function FormList({ tables, checkboxes, year, onDelete }) {
+function FormList({ tables, checkboxes, textboxes, year, onDelete }) {
 
 
     return(
@@ -19,6 +20,13 @@ function FormList({ tables, checkboxes, year, onDelete }) {
                                  key={activity.id}
                                  onDelete={onDelete}
                                  year={year} />
+            })}
+
+            {textboxes.map(activity => {
+                return <Textbox activity={activity}
+                                key={activity.id}
+                                onDelete={onDelete}
+                                year={year} />
             })}
         </div>
     )

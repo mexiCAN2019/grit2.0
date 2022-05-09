@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import FormList from './formList';
-import Checkbox from './checkbox';
+import Textbox from './textbox';
 import Express from './../../fetchExpress';
 
 function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
     const [tables, setTables] = useState([]);
     const [checkboxes, setCheckBoxes] = useState([]);
-    const [subjectives, setSubjectives] = useState([]);
+    const [textboxes, setTextboxes] = useState([]);
     const [skillName, setSkillName] = useState('');
     const [form, setForm] = useState('');
     const [monthID, setMonthID] = useState(monthAndMonthID.replace(/^\D+/g, ''));
@@ -14,6 +14,7 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
     useEffect(() => {
         Express.getTables(year, weekID).then(tables => setTables(tables));
         Express.getCheckboxes(year, weekID).then(checkboxes => setCheckBoxes(checkboxes));
+        Express.getTextboxes(year, weekID).then(textboxes => setTextboxes(textboxes));
     }, []);
 
     const handleActivityChange = (e) => {
@@ -60,17 +61,19 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
                         }
                     });
                     break;
-                case 'subjective':
-                    // setSubjectiveId(prevId => prevId + 1); //state of tableId will actuall be one more than what the key will be for the table. Don't know wh
-                    // setSubjectives(prevSubjective => {
-                    //     return [ ...prevSubjective, {activity: skillName, id: subjectiveId} ]
-                    // });
+                case 'textbox':
                     const newTextbox = {
-                        text: '',
+                        text: null,
                         skillName: skillName.toUpperCase(),
-                        weekId: weekID
+                        weekID: weekID,
+                        monthID: monthID,
+                        year: year
                     }
-                    Express.createSubjective(year, newTextbox).then(createdTextbox => setSubjectives(savedTextboxes => [...savedTextboxes, createdTextbox]));
+                    Express.createTextbox(year, newTextbox).then(responseOk => {
+                        if(responseOk) {
+                            Express.getTextboxes(year, weekID).then(textboxes => setTextboxes(textboxes));
+                        }
+                    });
                     break;
                 default:
                     return;
@@ -96,9 +99,10 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
                     return currentCheckbox.filter(checkbox => checkbox.id !== activity.id)
                 });
                 break;
-            case 'subjective':
-                setSubjectives(currentSubjective => {
-                    return currentSubjective.filter(subjective => subjective.id !== activity.id)
+            case 'textbox':
+                Express.deleteTextbox(year, activity.id);
+                setTextboxes(currentTextboxes => {
+                    return currentTextboxes.filter(textbox => textbox.id !== activity.id)
                 });
                 break;
         };
@@ -118,7 +122,7 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
                         <option></option>
                         <option value="table">Hours & Min</option>
                         <option value="checkbox">Checkbox</option>
-                        <option value="subjective">Text Box</option>
+                        <option value="textbox">Text Box</option>
                     </select>
                 </div>
                 <button className="formAddButton" onClick={onAdd}>Add</button>
@@ -133,6 +137,7 @@ function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
 
             <FormList tables={tables}
                       checkboxes={checkboxes}
+                      textboxes={textboxes}
                       year={year}
                       onDelete={deleteForm} />
         </div>

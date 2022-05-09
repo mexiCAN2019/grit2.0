@@ -267,21 +267,20 @@ Express.deleteCheckbox = (year, id) => {
 };
 
 //Textboxes
-Express.getSubjectives = (year, weekId) => {
-    const url = `${baseUrl}/years/${year}/month/subjective?weekId=${weekId}`;
+Express.getTextboxes = (year, weekID) => {
+    const url = `${baseUrl}/years/${year}/month/textboxes?weekID=${weekID}`;
     return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress failed', response);
-        return;
     }).then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.textboxes;
     }).catch(error => console.log(error));
 };
 
-Express.createSubjective = (year, newTextbox) => {
-    const url = `${baseUrl}/years/${year}/month/subjective`;
+Express.createTextbox = (year, newTextbox) => {
+    const url = `${baseUrl}/years/${year}/month/textbox`;
     const fetchOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -289,16 +288,14 @@ Express.createSubjective = (year, newTextbox) => {
     };
     return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            return response.json();
+            return true;
         }
         console.log('fetchExpress failed', response);
-    }).then(jsonResponse => {
-        return jsonResponse;
     }).catch(error => console.log(error));
 };
 
-Express.updateSubjective = (year, updatedTextbox) => {
-    const url = `${baseUrl}/years/${year}/month/subjective`;
+Express.updateTextbox = (year, updatedTextbox) => {
+    const url = `${baseUrl}/years/${year}/month/textbox`;
     const fetchOptions = {
         method: "PUT",
         headers: {'Content-Type': 'application/json'},
@@ -309,14 +306,12 @@ Express.updateSubjective = (year, updatedTextbox) => {
             return response.json();
         }
         console.log('fetchExpress failed', response);
-    }).then(jsonResponse => {
-        return jsonResponse;
     }).catch(error => console.log(error));
 };
 
-Express.deleteSubjective = (year, id) => {
-    const url = `${baseUrl}/years/${year}/month/subjective?id=${id}`;
-    const fetchOptions = {method: 'DELETE'};
+Express.deleteTextbox = (year, id) => {
+    const url = `${baseUrl}/years/${year}/month/textbox?id=${id}`;
+    const fetchOptions = {method: 'DELETE', headers: {'Content-Type': 'application/json'}};
     return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             alert('Successfully Deleted');
