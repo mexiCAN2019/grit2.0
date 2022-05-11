@@ -101,7 +101,7 @@ function Months({match:{params:{year}}}) {
             <h1>Yearbar</h1>
             <h2>{renderMonths()}</h2>
             <button onClick={handleAddMonth}>Add month</button>
-            <h3>Year Review!</h3>
+            <Link to={`/${year}/yearReview`}><h4>Year Review!</h4></Link>
         </div>
     )
 }

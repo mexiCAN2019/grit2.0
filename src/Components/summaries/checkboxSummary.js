@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MonthCheckboxSummary({ skill }) {
+function CheckboxSummary({ skill }) {
     const {skillName, mondayTotal, tuesdayTotal, wednesdayTotal, thursdayTotal, fridayTotal, saturdayTotal, sundayTotal} = skill;
 
     const addTotal = () => {
@@ -17,4 +17,4 @@ function MonthCheckboxSummary({ skill }) {
     )
 }
 
-export default MonthCheckboxSummary;
+export default CheckboxSummary;
