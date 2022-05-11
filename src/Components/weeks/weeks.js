@@ -57,7 +57,7 @@ function Weeks({match:{params:{ year, monthAndMonthID }}}) {
             <button onClick={handleSaveWeek}>Add</button>
             <p className="note">*Make sure the day is a Monday. For example, the date 10/5/2020, you would put 5, which is a Monday, for day to add*</p>
             <div className="space"></div>
-            {/* <Link className="link" to={`/${year}/${monthAndMonthID}/monthReview`}><h4 id="review">Month Review</h4></Link> */}
+            {<Link className="link" to={`/${year}/${monthAndMonthID}/monthSummary`}><h4 id="review">Month Review</h4></Link>}
         </div>
     )
 }
