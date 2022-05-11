@@ -391,33 +391,34 @@ Express.updateReviewTextbox = (year, updatedTextbox) => {
 
 // YEAR REVIEW SECTION
 Express.getYearTableSkills = year => {
-    const url = `${baseUrl}/years/${year}/yearReview/table/${year}`;
+    const url = `${baseUrl}/years/${year}/yearSummary/table`;
     return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress failed', response);
     }).then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.hours;
     }).catch(error => console.log(error));
 };
 
 Express.getYearCheckboxSkills = year => {
-    const url = `${baseUrl}/years/${year}/yearReview/checkbox/${year}`;
+    const url = `${baseUrl}/years/${year}/yearSummary/checkbox/`;
     return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress failed', response);
     }).then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.checkboxCount;
     }).catch(error => console.log(error));
 };
 
-Express.createYearReviewSubjective = (year, newTextbox) => {
-    const url = `${baseUrl}/years/${year}/yearReview/subjective`;
+Express.createYearSummaryTextbox = (year, newTextbox) => {
+    const url = `${baseUrl}/years/${year}/yearSummary/textbox`;
     const fetchOptions = {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({textbox: newTextbox})
     };
     return fetch(url, fetchOptions).then(response => {
@@ -425,27 +426,26 @@ Express.createYearReviewSubjective = (year, newTextbox) => {
             return response.json();
         }
         console.log('fetchExpress failed', response);
-    }).then(jsonResponse => {
-        return jsonResponse;
     }).catch(error => console.log(error));
 };
 
-Express.getYearReviewSubjective = year => {
-    const url = `${baseUrl}/years/${year}/yearReview/subjective/${year}`;
+Express.getYearSummaryTextbox = year => {
+    const url = `${baseUrl}/years/${year}/yearSummary/textbox`;
     return fetch(url).then(response => {
         if(response.ok){
             return response.json();
         }
         console.log('fetchExpress failed', response);
     }).then(jsonResponse => {
-        return jsonResponse;
+        return jsonResponse.textbox[0];
     }).catch(error => console.log(error));
 };
 
-Express.updateYearReviewSubjective = (year, updatedTextbox) => {
-    const url = `${baseUrl}/years/${year}/yearReview/subjective`;
+Express.updateYearSummaryTextbox = (year, updatedTextbox) => {
+    const url = `${baseUrl}/years/${year}/yearSummary/textbox`;
     const fetchOptions = {
         method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({textbox: updatedTextbox})
     };
     return fetch(url, fetchOptions).then(response => {
@@ -453,8 +453,6 @@ Express.updateYearReviewSubjective = (year, updatedTextbox) => {
             return response.json();
         }
         console.log('fetchExpress', response);
-    }).then(jsonResponse => {
-        return jsonResponse;
     }).catch(error => console.log(error));
 };
 

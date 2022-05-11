@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MonthTableSummary({ skill }) {
+function TableSummary({ skill }) {
     const { skillName, totalActualHours, totalActualMinutes, learningActualHours, learningActualMinutes, practicingActualHours, practicingActualMinutes, performingActualHours, performingActualMinutes } = skill;
 
     const renderTime = (hours, minutes) => {
@@ -30,4 +30,4 @@ function MonthTableSummary({ skill }) {
     )
 };
 
-export default MonthTableSummary;
+export default TableSummary;

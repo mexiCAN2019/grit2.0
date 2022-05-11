@@ -3,27 +3,26 @@ import Express from './../../fetchExpress';
 import TableSummary from './tableSummary';
 import CheckboxSummary from './checkboxSummary';
 
-function MonthSummary({ match:{params: { monthAndMonthID, year }}}) {
-    const [monthID, setMonthID] = useState(monthAndMonthID.replace(/^\D+/g, ''));
+function YearSummary({match: {params: { year }}}) {
     const [tableSkills, setTableSkills] = useState([]);
     const [checkboxSkills, setCheckboxSkilss] = useState([]);
     const [subjective, setSubjective] = useState({});
     const [text, setText] = useState('');
 
     useEffect(() => {
-        Express.getTableSkills(year, monthID).then(tables => setTableSkills(tables));
-        Express.getCheckboxSkills(year, monthID).then(checkboxes => setCheckboxSkilss(checkboxes));
-        Express.getMonthReviewTextbox(year, monthID).then(textbox => setSubjective(textbox));
+        Express.getYearTableSkills(year).then(tables => setTableSkills(tables));
+        Express.getYearCheckboxSkills(year).then(checkboxes => setCheckboxSkilss(checkboxes));
+        Express.getYearSummaryTextbox(year).then(textbox => setSubjective(textbox));
     }, []);
 
     const handleSave = () => {
         const newTextbox = {
-            year: year,
+            skillName: 'Year Review',
             text: text,
-            monthID: monthID
+            year: year
         };
 
-        Express.createMonthReviewTextbox(year, newTextbox).then(textBox => Express.getMonthReviewTextbox(year, monthID).then(textbox => setSubjective(textbox)));
+        Express.createYearSummaryTextbox(year, newTextbox).then(textBox => Express.getYearSummaryTextbox(year).then(textbox => setSubjective(textbox)));
     };
 
     const renderSaveOrUpdateButtonTextarea = () => {
@@ -41,25 +40,25 @@ function MonthSummary({ match:{params: { monthAndMonthID, year }}}) {
         return <div>
                 <textarea placeholder="Add comments" onChange={(e) => setText(e.target.value)} defaultValue={subjective.text} value={text} />
                 <br></br>
-                <button onClick={() => Express.updateReviewTextbox(year, updatedTextbox)}>Update</button>
+                <button onClick={() => Express.updateYearSummaryTextbox(year, updatedTextbox)}>Update</button>
             </div> 
+        
     };
 
     return (
         <div>
-            Month Summary
-
+            <h1>Year Review</h1>
             {tableSkills.map(skill => {
                 return <TableSummary skill={skill} />
             })}
             {checkboxSkills.map(skill => {
                 return <CheckboxSummary skill={skill} />
             })}
-
-            <h3>Thoughts/Notes</h3>
+                <h3>Thoughts/Notes</h3>
                 {renderSaveOrUpdateButtonTextarea()}
+
         </div>
     )
 }
 
-export default MonthSummary;
+export default YearSummary;
