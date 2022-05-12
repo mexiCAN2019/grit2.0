@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Express from './../../fetchExpress'
 
-function Weeks({match:{params:{ year, monthAndMonthID }}}) {
-    const [monthID, setMonthID] = useState(monthAndMonthID.replace(/^\D+/g, ''));
+function Weeks() {
     const [weeks, setWeeks] = useState([]);
     const [date, setDate] = useState('');
+
+    const { year, monthAndMonthID } = useParams();
+    const monthID = monthAndMonthID.replace(/^\D+/g, '');
 
     useEffect(() => {
         Express.getWeeks(year, monthID).then(savedWeeks => setWeeks(savedWeeks))

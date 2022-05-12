@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Express from './../../fetchExpress';
 import TableSummary from './tableSummary';
 import CheckboxSummary from './checkboxSummary';
+import { useParams } from 'react-router-dom';
 
-function MonthSummary({ match:{params: { monthAndMonthID, year }}}) {
-    const [monthID, setMonthID] = useState(monthAndMonthID.replace(/^\D+/g, ''));
+function MonthSummary() {
     const [tableSkills, setTableSkills] = useState([]);
     const [checkboxSkills, setCheckboxSkilss] = useState([]);
     const [subjective, setSubjective] = useState({});
     const [text, setText] = useState('');
+
+    const { year, monthAndMonthID } = useParams();
+    const monthID = monthAndMonthID.replace(/^\D+/g, '');
 
     useEffect(() => {
         Express.getTableSkills(year, monthID).then(tables => setTableSkills(tables));

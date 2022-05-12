@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import FormList from './formList';
-import Textbox from './textbox';
 import Express from './../../fetchExpress';
+import { useParams } from 'react-router-dom';
 
-function Week({ match: { params: { year, weekID, monthAndMonthID }}}) {
+function Week() {
     const [tables, setTables] = useState([]);
     const [checkboxes, setCheckBoxes] = useState([]);
     const [textboxes, setTextboxes] = useState([]);
     const [skillName, setSkillName] = useState('');
     const [form, setForm] = useState('');
-    const [monthID, setMonthID] = useState(monthAndMonthID.replace(/^\D+/g, ''));
+
+    const { year, monthAndMonthID, weekID } = useParams();
+    const monthID = monthAndMonthID.replace(/^\D+/g, '');
 
     useEffect(() => {
         Express.getTables(year, weekID).then(tables => setTables(tables));

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Express from './../../fetchExpress';
 import TableSummary from './tableSummary';
 import CheckboxSummary from './checkboxSummary';
 
-function YearSummary({match: {params: { year }}}) {
+function YearSummary() {
     const [tableSkills, setTableSkills] = useState([]);
     const [checkboxSkills, setCheckboxSkilss] = useState([]);
     const [subjective, setSubjective] = useState({});
     const [text, setText] = useState('');
+
+    const { year } = useParams();
 
     useEffect(() => {
         Express.getYearTableSkills(year).then(tables => setTableSkills(tables));
