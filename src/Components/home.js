@@ -62,6 +62,9 @@ function HomePage() {
                             <Input type='number' onChange={handleYearChange} />
                             <Button variant='contained' onClick={handleSaveYear}>Add Next Year!</Button>
                         </Card>
+                        <Link to='/totalSummary'>
+                            Total Summary!
+                        </Link>
                     </Grid>    
                 </Grid>
             </Container>    
