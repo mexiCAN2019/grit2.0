@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import yearBar from './yearBar';
 import Express from './../../fetchExpress';
 // import { SwitchRight } from '@mui/icons-material';
 
 const { createMonth } = Express;
 
-function Months({match:{params:{year}}}) {
+function Months() {
     const [months, setMonths] = useState([]);
+
+    const { year } = useParams();
 
     useEffect(async () => {
         // Express.getMonths(year).then(savedMonths => setMonths(savedMonths))
