@@ -456,4 +456,85 @@ Express.updateYearSummaryTextbox = (year, updatedTextbox) => {
     }).catch(error => console.log(error));
 };
 
+//TOTAL SUMMARY
+Express.getTotalTableSkills = async () => {
+    const url = `${baseUrl}/totalSummary/table`;
+    try{
+        const response = await fetch(url);
+        if(response.ok) {
+            const jsonResponse = await response.json();
+            return jsonResponse.hours;
+        } else{
+            console.log('Fetch Express error', response);
+        }
+    } catch(err) {
+        console.log(err);
+    }
+};
+
+Express.getTotalCheckboxSkills = async () => {
+    const url = `${baseUrl}/totalSummary/checkbox`;
+    try{
+        const response = await fetch(url);
+        if(response.ok){
+            const jsonResponse = await response.json();
+            return jsonResponse.checkboxCount;
+        } else{
+            console.log('FetchExpress Error', response);
+        }
+    } catch(err) {
+        console.log(err);
+    }
+};
+
+Express.getTotalTextbox = async() => {
+    const url = `${baseUrl}/totalSummary/textbox`;
+    try {
+        const response = fetch(url);
+        if(response.ok) {
+            const jsonResponse = await response.json();
+            return jsonResponse.textbox;
+        } 
+        console.log('FetchExpress Error', response);
+    } catch(err) {
+        console.log(err);
+    }
+};
+
+Express.createTotalTextbox = async(newTextbox) => {
+    const url = `${baseUrl}/totalSummary/textbox`;
+    const fetchOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({textbox: newTextbox})
+    };
+    try{
+        const response = await fetch(url, fetchOptions);
+        if(response.ok) {
+            return 'Success';
+        }
+        console.log('FetchExpress Error', response);
+    } catch(err) {
+        console.log(err);
+    }
+};
+
+Express.udpateTotalTextbox = async(updatedTextbox) => {
+    const url = `${baseUrl}/totalSummary/textbox`;
+    const fetchOptions = {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({textbox: updatedTextbox})
+    };
+    try{
+        const response = await fetch(url, fetchOptions);
+        if(response.ok){
+            return 'Success';
+        }
+        console.log('FetchExpress Error', response);
+    } catch(err){
+        console.log(err);
+    }
+}
+
 export default Express;
