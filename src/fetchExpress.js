@@ -41,7 +41,7 @@ Express.deleteYear = year => {
     return fetch(url,fetchOptions).then(response => {
         if(!response.ok){
             alert('Cannot Delete Year While Months Are Inside');
-            return 'error 400';
+            return 400;
         }
         return;
     });
@@ -90,11 +90,13 @@ Express.deleteMonth = (year, id) => {
     const url = `${baseUrl}/years/${year}`;
     const fetchOptions = {method: "DELETE", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({monthID: id})};
     console.log(id);
-    return fetch(url, fetchOptions).then(response => {
-        if(response.ok){
-            return;
+    return fetch(url,fetchOptions).then(response => {
+        if(!response.ok){
+            alert('Cannot Delete Month with Weeks Inside');
+            return 400;
         }
-    })
+        return;
+    });
 };
 
 //WEEK SEGMENT
@@ -135,11 +137,12 @@ Express.deleteWeek = (year, weekID) => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({weekID: weekID})
     }
-    return fetch(url, fetchOptions).then(response => {
-        if(response.ok){
-            return;
+    return fetch(url,fetchOptions).then(response => {
+        if(!response.ok){
+            alert('Cannot Delete Week with Info');
+            return 400;
         }
-        return 'error 400'; //decide how you want deletion flow. At what point does user confirm deletion?
+        return;
     }, networkError => console.log(networkError.message));
 };
 
@@ -164,12 +167,10 @@ Express.deleteTable = (year, id) => {
         method: 'DELETE',
         headers: {'Content-Type': 'application/json'}
     };
-    fetch(url, fetchOptions).then(response => {
+    return fetch(url, fetchOptions).then(response => {
         if(response.ok){
             return 200;
         }
-        console.log('fetchExpress Error');
-        return;
     }, networkError => console.log(networkError.message));
 };
 

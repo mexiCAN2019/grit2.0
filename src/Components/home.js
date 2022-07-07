@@ -32,9 +32,12 @@ function HomePage() {
     const handleDeleteYear = (e) => {
         const year = e.target.value;
         Express.deleteYear(year).then(checkError400 => {
-            if(checkError400 == 'error 400'){
-                return;
-            } setYears(currentYear => currentYear.filter(currentyear => currentyear.year != year))});
+            if(checkError400 === 400){
+                return '';
+            } else{
+                setYears(currentYear => currentYear.filter(currentyear => currentyear.year != year))
+            }
+        });
     };
 
     const renderYears = () => {
