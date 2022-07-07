@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import Express from './../../fetchExpress';
+import { 
+    TextField,
+    Button,
+    Checkbox,
+    FormControlLabel,
+    FormControl,
+    FormGroup,
+    FormLabel,
+    Card
+} from '@mui/material'
 
-function Checkbox({ activity, year, onDelete }) {
+function Checkboxes({ activity, year, onDelete, handleSnackBar }) {
     const [skillName, setSkillName] = useState(activity.skillName);
 
     const [mondayChecked, setMondayChecked] = useState(activity.monday);
@@ -53,141 +63,57 @@ function Checkbox({ activity, year, onDelete }) {
             sunday: sundayChecked,
             id: activity.id
         };
-        Express.updateCheckbox(year, updatedCheckbox);
-    };
-
-    const renderCheckboxes = (dayOfWeek) => {
-        switch(dayOfWeek) {
-            case 'monday':
-                if(mondayChecked === 1) {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="monday" onChange={handleCheck} checked></input>
-                            <label for={skillName}>Monday</label>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="monday" onChange={handleCheck}></input>
-                            <label for="monday">Monday</label>
-                        </div>
-                    )
-                }
-            case 'tuesday':
-                if(tuesdayChecked === 1) {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="tuesday" onChange={handleCheck} checked></input>
-                            <label for="tuesday">Tuesday</label>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="tuesday" onChange={handleCheck}></input>
-                            <label for="tuesday">Tuesday</label>
-                        </div>
-                    )
-                }
-            case 'wednesday':
-                if(wednesdayChecked === 1) {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="wednesday" onChange={handleCheck} checked></input>
-                            <label for="wednesday">Wednesday</label>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="wednesday" onChange={handleCheck}></input>
-                            <label for="wednesday">Wednesday</label>
-                        </div>
-                    )
-                }
-            case 'thursday':
-                if(thursdayChecked === 1) {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="thursday" onChange={handleCheck} checked></input>
-                            <label for="thursday">Thursday</label>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="thursday" onChange={handleCheck}></input>
-                            <label for="thursday">Thursday</label>
-                        </div>
-                    )
-                }
-            case 'friday':
-                if(fridayChecked === 1) {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="friday" onChange={handleCheck} checked></input>
-                            <label for="friday">Friday</label>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="friday" onChange={handleCheck}></input>
-                            <label for="friday">Friday</label>
-                        </div>
-                    )
-                }
-            case 'saturday':
-                if(saturdayChecked === 1) {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="saturday" onChange={handleCheck} checked></input>
-                            <label for="saturday">Saturday</label>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="saturday" onChange={handleCheck}></input>
-                            <label for="saturday">Saturday</label>
-                        </div >
-                    )
-                }
-            case 'sunday':
-                if(sundayChecked === 1) {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="sunday" onChange={handleCheck} checked></input>
-                            <label for="sunday">Sunday</label>
-                        </div>
-                    )
-                } else {
-                    return (
-                        <div className="checkbox">
-                            <input type="checkbox" className="day" id="sunday" onChange={handleCheck}></input>
-                            <label for="sunday">Sunday</label>
-                        </div>
-                    )
-                }
-        };
+        Express.updateCheckbox(year, updatedCheckbox).then(response => {
+            if(response === 200){
+                handleSnackBar('successSave');
+            }
+        });
     };
 
     return (
-        <div>
-            <input className="skillName" style={{margin: "50px auto 20px"}} type="text" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)}></input>
-            <button onClick={() => onDelete('checkbox', activity)}>Delete</button>
-            <button onClick={updateCheckbox}>Save Changes</button>
-
-            {renderCheckboxes('monday')}
-            {renderCheckboxes('tuesday')}
-            {renderCheckboxes('wednesday')}
-            {renderCheckboxes('thursday')}
-            {renderCheckboxes('friday')}
-            {renderCheckboxes('saturday')}
-            {renderCheckboxes('sunday')}
-        </div>
+        <Card style={{margin: '30px 100px', padding: '15px', borderRadius: '20px'}}>
+            <TextField required id="outlined-required" label="Skill" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)} />
+            <br></br>
+            <div style={{margin: '15px auto'}}>
+                <Button style={{}} variant='outlined' onClick={() => onDelete('checkbox', activity)}>Delete</Button>
+                <Button style={{}} variant='contained' onClick={updateCheckbox}>Save Changes</Button>
+            </div>
+            <FormControl>
+                <FormLabel>Days</FormLabel>
+                <FormGroup>
+                    <FormControlLabel 
+                        label='Monday'
+                        control={<Checkbox id='monday' checked={mondayChecked} onChange={handleCheck} />} 
+                    />
+                    <FormControlLabel 
+                        label='Tuesday'
+                        control={<Checkbox id='tuesday' checked={tuesdayChecked} onChange={handleCheck} />} 
+                    />
+                    <FormControlLabel 
+                        label='Wednesday'
+                        control={<Checkbox id='wednesday' checked={wednesdayChecked} onChange={handleCheck} />} 
+                    />
+                    <FormControlLabel 
+                        label='Thursday'
+                        control={<Checkbox id='thursday' checked={thursdayChecked} onChange={handleCheck} />} 
+                    />
+                    <FormControlLabel 
+                        label='Friday'
+                        control={<Checkbox id='friday' checked={fridayChecked} onChange={handleCheck} />} 
+                    />
+                    <FormControlLabel 
+                        label='Saturday'
+                        control={<Checkbox id='saturday' checked={saturdayChecked} onChange={handleCheck} />} 
+                    />
+                    <FormControlLabel 
+                        label='Sunday'
+                        control={<Checkbox id='sunday' checked={sundayChecked} onChange={handleCheck} />} 
+                    />
+                </FormGroup>
+            </FormControl>
+            
+        </Card>
     )
 }
 
-export default Checkbox;
+export default Checkboxes;

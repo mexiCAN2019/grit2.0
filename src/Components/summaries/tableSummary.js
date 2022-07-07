@@ -1,4 +1,10 @@
 import React from 'react';
+import { 
+    Box,
+    Container,
+    Divider,
+    Stack
+} from '@mui/material'
 
 function TableSummary({ skill }) {
     const { skillName, totalActualHours, totalActualMinutes, learningActualHours, learningActualMinutes, practicingActualHours, practicingActualMinutes, performingActualHours, performingActualMinutes } = skill;
@@ -7,25 +13,29 @@ function TableSummary({ skill }) {
         if(minutes >= 60) {
             const hoursToAdd = Math.floor(minutes / 60);
             const minutesRemainder = Math.round(minutes % 60);
-            return <p>{hours + hoursToAdd}Hrs {minutesRemainder}Mins</p>;
+            return <div>{hours + hoursToAdd}Hrs {minutesRemainder}Mins</div>;
         } 
-        return <p>{hours}Hrs {minutes}Mins</p>;
+        return <div>{hours}Hrs {minutes}Mins</div>;
     };
 
     return (
-        <div style={{marginTop: "50px"}}>
-            <h3 style={{width: "50%", margin: "auto"}}>{skillName}</h3>
-                <h4>Total Time: {renderTime(totalActualHours, totalActualMinutes)}</h4>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div>
+                <h3 style={{display:'flex', justifyContent:'center'}}><u>{skillName}</u></h3>
+                <h4 style={{display:'flex', justifyContent:'center'}}><div>Total Time:<br></br> {renderTime(totalActualHours, totalActualMinutes)}</div></h4>
                 
+                <Stack direction="row" style={{margin: '15px'}}>
+                    <div>Total Time Practicing:
+                    {renderTime(practicingActualHours, practicingActualMinutes)}</div>
 
-                <p>Total Time Practicing: </p>
-                {renderTime(practicingActualHours, practicingActualMinutes)}
+                    <div style={{margin: 'auto 40px'}}>Total Time Learning: 
+                    {renderTime(learningActualHours, learningActualMinutes)}</div>
 
-                <p>Total Time Learning: </p>
-                {renderTime(learningActualHours, learningActualMinutes)}
-
-                <p>Total Time Performing: </p>
-                {renderTime(performingActualHours, performingActualMinutes)}
+                    <div>Total Time Performing: 
+                    {renderTime(performingActualHours, performingActualMinutes)}</div>
+                    
+                </Stack>
+            </div>
         </div>
     )
 };

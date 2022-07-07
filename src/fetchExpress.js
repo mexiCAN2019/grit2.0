@@ -1,5 +1,6 @@
 const Express = {};
-const baseUrl = 'http://localhost:5000';
+// const baseUrl = 'http://localhost:5000';
+const baseUrl = 'http://gritapi.elementbalance.com';
 
 // Express.getSomething = async() => {
     // this is how you do async await with arrow notation}
@@ -74,7 +75,7 @@ Express.createMonth = (year, month) => {
     console.log(month);
     fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            return response.json();
+            return JSON.parse(JSON.stringify(response))
         }
         console.log('fetchExpress error');
         return;
@@ -91,11 +92,8 @@ Express.deleteMonth = (year, id) => {
     console.log(id);
     return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            alert('Successfully Deleted');
             return;
         }
-        alert('Are you Sure you want to delete everything for this year?')
-        //add confirm() to frontend and delete this alert.
     })
 };
 
@@ -139,7 +137,6 @@ Express.deleteWeek = (year, weekID) => {
     }
     return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            alert('Succesfully Deleted');
             return;
         }
         return 'error 400'; //decide how you want deletion flow. At what point does user confirm deletion?
@@ -169,8 +166,7 @@ Express.deleteTable = (year, id) => {
     };
     fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            alert('Successfully Deleted');
-            return;
+            return 200;
         }
         console.log('fetchExpress Error');
         return;
@@ -202,11 +198,9 @@ Express.updateTable = (year, updatedTable) => {
     };
     return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            alert('Time Successfully Updated');
-            return;
+            return 200;
         }
-        alert('Error: Total Goal Hours must contain value, Name of skill cannot be left blank');
-        return;
+        return 400;
     }).catch(error => console.log(error));
 };
 
@@ -261,7 +255,7 @@ Express.deleteCheckbox = (year, id) => {
     const url = `${baseUrl}/years/${year}/month/checkbox?id=${id}`;
     return fetch(url, {method: 'DELETE', headers: {'Content-Type': 'application/json'}}).then(response => {
         if(response.ok){
-            alert('Successfully Deleted')
+            return 200;
         }
     }).catch(error => console.log(error));
 };
@@ -314,7 +308,7 @@ Express.deleteTextbox = (year, id) => {
     const fetchOptions = {method: 'DELETE', headers: {'Content-Type': 'application/json'}};
     return fetch(url, fetchOptions).then(response => {
         if(response.ok){
-            alert('Successfully Deleted');
+            return 200;
         }
     }).catch(error => console.log(error));
 };

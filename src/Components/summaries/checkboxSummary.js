@@ -1,4 +1,10 @@
 import React from 'react';
+import { 
+    Box,
+    Container,
+    Divider,
+    Stack
+} from '@mui/material'
 
 function CheckboxSummary({ skill }) {
     const {skillName, mondayTotal, tuesdayTotal, wednesdayTotal, thursdayTotal, fridayTotal, saturdayTotal, sundayTotal} = skill;
@@ -10,9 +16,11 @@ function CheckboxSummary({ skill }) {
     }
 
     return (
-        <div>
-            <h3>{skillName}</h3>
-            <h4>Total: {addTotal()}</h4>
+        <div style={{display:'flex', justifyContent:'center'}}>
+            <div>
+                <h3><u>{skillName}</u></h3>
+                <h4 style={{display: 'flex', justifyContent: 'center'}}>Total: {addTotal()}</h4>
+            </div>
         </div>
     )
 }

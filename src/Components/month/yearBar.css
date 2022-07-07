@@ -1,7 +1,7 @@
 .yearBarContainer {
     text-align: center;
     color: seashell;
-    background-color: royalblue;
+    background-color: #4899d7;
     width: 500px;
     margin: auto;
     padding-bottom: 40px;
@@ -36,10 +36,4 @@
       inset 0 -2px 6px rgba(0,0,0,0.4);
     position: relative;
     overflow: hidden;
-  }
-
-  h2 {
-      margin-bottom: 0px;
-      background-color: royalblue;
-      color: seashell;
   }
