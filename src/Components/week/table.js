@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Express from './../../fetchExpress';
 // import './table.css';
 import { 
@@ -79,6 +79,9 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
     const [overallHours, setOverallHours] = useState(0);
     const [overallMinutes, setOverallMinutes] = useState(0);
 
+    useEffect(() => {
+        handleAddTime();
+    }, [])
 
     const addLearningTime = () => {
 
@@ -141,24 +144,10 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
         };
     };
 
-    const chooseCategoryToAddTime = (category) => {
-        switch(category) {
-            case "learning":
-                addLearningTime()
-                break;
-            case "practicing":
-                addPracticingTime();
-                break;
-            case "performing":
-                addPerformingTime();
-                break;
-        };
-    };
-
     const handleAddTime = () => {
-        chooseCategoryToAddTime("learning");
-        chooseCategoryToAddTime("practicing");
-        chooseCategoryToAddTime("performing");
+        addLearningTime()
+        addPracticingTime();
+        addPerformingTime();
         addOverallTime();
     };
 

@@ -76,9 +76,11 @@ function Months() {
         const monthToRenderDelete = months.length - 1;
         if(months[monthToRenderDelete].id == id){
             return <Button style={{margin: '10px'}} variant='outlined' onClick={() => Express.deleteMonth(year,id).then(checkError400 => {
-                if(checkError400){
-                    return;
-                } setMonths(currentMonths => currentMonths.filter(currentMonth => currentMonth.id != id));
+                if(checkError400 === 400){
+                    return '';
+                } else{
+                    setMonths(currentMonths => currentMonths.filter(currentMonth => currentMonth.id != id));
+                }
             })}>delete</Button>;
         };
     };

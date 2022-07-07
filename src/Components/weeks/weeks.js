@@ -31,12 +31,15 @@ function Weeks() {
         })
     };
 
-    const handleDeleteYear = (e) => {
+    const handleDeleteWeek = (e) => {
         const weekId = e.target.value;
         Express.deleteWeek(year, weekId).then(checkError400 => {
-            if(checkError400 == 'error 400'){
-                return;
-            } setWeeks(currentWeek => currentWeek.filter(week => week.id != weekId))});
+            if(checkError400 === 400){
+                return '';
+            } else{
+                setWeeks(currentWeek => currentWeek.filter(week => week.id != weekId))
+            }
+        });
     };
 
     const renderWeeks = () => {
@@ -47,7 +50,7 @@ function Weeks() {
                         key={week.id}>
                         <h3>{week.week}</h3>
                     </Link>
-                    <Button style={{margin: '10px'}} variant='outlined' value={week.id} onClick={handleDeleteYear}>Delete</Button>
+                    <Button style={{margin: '10px'}} variant='outlined' value={week.id} onClick={handleDeleteWeek}>Delete</Button>
                 </div>
             )
         });
