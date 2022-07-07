@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import Express from './../../fetchExpress';
 import TableSummary from './tableSummary';
 import CheckboxSummary from './checkboxSummary';
+import { 
+    TextField,
+    Button,
+    Grid,
+    Stack,
+    Container,
+    Divider,
+    Card,
+    CardContent
+} from '@mui/material'
 
 function TotalSummary() {
     const [tableSkills, setTableSkills] = useState([]);
@@ -26,9 +36,9 @@ function TotalSummary() {
     const renderSaveOrUpdateButtonTextarea = () => {
         if(!subjective){
             return <div>
-                    <textarea placeholder="Add comments" onChange={(e) => setText(e.target.value)} value={text} />
+                    <TextField placeholder="Add comments" variant='outlined' fullWidth multiline rows={4} onChange={(e) => setText(e.target.value)} />
                     <br></br>
-                    <button onClick={handleSave}>Save</button>
+                    <Button variant='contained' onClick={handleSave}>Save Changes</Button>
                 </div>
         }
         const updatedTextbox = {
@@ -36,26 +46,41 @@ function TotalSummary() {
             text: text
         };
         return <div>
-                <textarea placeholder="Add comments" onChange={(e) => setText(e.target.value)} defaultValue={subjective.text} value={text} />
+            <TextField placeholder="Add comments" variant='outlined' fullWidth multiline rows={4} onChange={(e) => setText(e.target.value)} defaultValue={subjective.text} />
                 <br></br>
-                <button onClick={() => Express.udpateTotalTextbox(updatedTextbox)}>Update</button>
+                <Button variant='contained' onClick={() => Express.udpateTotalTextbox(updatedTextbox)}>Save Changes</Button>
             </div> 
     };
 
     return (
-        <div>
-            Total Summary, it takes 10,000 hours to become a pro!
-
-            {tableSkills.map(skill => {
-                return <TableSummary skill={skill} />
-            })}
-            {checkboxSkills.map(skill => {
-                return <CheckboxSummary skill={skill} />
-            })}
-
-            <h3>Thoughts/Notes</h3>
-                {renderSaveOrUpdateButtonTextarea()}
-        </div>
+        <Container>
+            <h2 style={{textAlign:"center"}} className='primary'>Total Summary</h2>
+                <h5 style={{textAlign:"center"}}><i>it takes 10,000 hours to become a pro!</i></h5>
+            <Grid container justifyContent="center" alignItems="center" rowSpacing={5}>
+                <Grid item sm={7}>
+                    <Card>
+                        <CardContent>
+                            <Stack direction="column" spacing={2} divider={<Divider />}>
+                                {tableSkills.map(skill => {
+                                    return <TableSummary skill={skill} />
+                                })}
+                                {checkboxSkills.map(skill => {
+                                    return <CheckboxSummary skill={skill} />
+                                })}
+                            </Stack>
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item sm={12} style={{marginBottom: '20px'}}>
+                    <Card>
+                        <CardContent>
+                            <h3>Thoughts/Notes</h3>
+                            {renderSaveOrUpdateButtonTextarea()}
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Container>
     )
 };
 

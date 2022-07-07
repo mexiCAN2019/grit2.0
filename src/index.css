@@ -5,6 +5,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #4899d7 !important;
+}
+
+a, .primary {
+  color: #c9a381 !important;
+}
+
+#summary {
+  color: seashell !important;
 }
 
 code {

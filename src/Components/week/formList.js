@@ -1,34 +1,56 @@
 import React from 'react';
-import Table from './table';
-import Checkbox from './checkbox';
+import Tables from './table';
+import Checkboxes from './checkbox';
 import Textbox from './textbox';
+import { 
+    TextField,
+    Button,
+    Select,
+    MenuItem,
+    Grid
+} from '@mui/material'
 
-function FormList({ tables, checkboxes, textboxes, year, onDelete }) {
+function FormList({ tables, checkboxes, textboxes, year, onDelete, handleSnackBar }) {
 
 
     return(
-        <div>
-            {tables.map(activity => {
-                return <Table activity={activity}
-                              key={activity.id}
-                              year={year}
-                              onDelete={onDelete} />
-            })}
-
-            {checkboxes.map(activity => {
-                return <Checkbox activity={activity}
-                                 key={activity.id}
-                                 onDelete={onDelete}
-                                 year={year} />
-            })}
-
-            {textboxes.map(activity => {
-                return <Textbox activity={activity}
+        <Grid container direction="column">
+            <Grid item>
+                {tables.map(activity => {
+                    return <Tables activity={activity}
                                 key={activity.id}
-                                onDelete={onDelete}
-                                year={year} />
-            })}
-        </div>
+                                year={year}
+                                handleSnackBar={handleSnackBar}
+                                onDelete={onDelete} />
+                })}
+            </Grid>
+            
+            <Grid item justifyContent="center">
+                <Grid container direction="row">
+                    {checkboxes.map(activity => {
+                        return (
+                        <Grid item sm={12} md={4} xl={3}>
+                            <Checkboxes activity={activity}
+                                        key={activity.id}
+                                        onDelete={onDelete}
+                                        handleSnackBar={handleSnackBar}
+                                        year={year} />
+                        </Grid>
+                    )})}
+                </Grid>
+            </Grid>
+            
+            <Grid item>
+                {textboxes.map(activity => {
+                    return <Textbox activity={activity}
+                                    key={activity.id}
+                                    onDelete={onDelete}
+                                    handleSnackBar={handleSnackBar}
+                                    year={year} />
+                })}
+            </Grid>
+            
+        </Grid>
     )
 }
 

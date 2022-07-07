@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Input, Button, TextField, Card, Grid, Divider, Stack, Container } from '@mui/material';
 import Express from './../../fetchExpress'
 
 function Weeks() {
@@ -7,6 +8,7 @@ function Weeks() {
     const [date, setDate] = useState('');
 
     const { year, monthAndMonthID } = useParams();
+    const navigate = useNavigate();
     const monthID = monthAndMonthID.replace(/^\D+/g, '');
 
     useEffect(() => {
@@ -40,12 +42,12 @@ function Weeks() {
     const renderWeeks = () => {
         return weeks.map(week => {
             return (
-                <div className="deleteContainer">
+                <div style={{textAlign: "center", paddingTop: '10px'}}>
                     <Link className="link" to={`/${year}/${monthAndMonthID}/${week.id}`}
                         key={week.id}>
                         <h3>{week.week}</h3>
                     </Link>
-                    <button value={week.id} onClick={handleDeleteYear}>Delete</button>
+                    <Button style={{margin: '10px'}} variant='outlined' value={week.id} onClick={handleDeleteYear}>Delete</Button>
                 </div>
             )
         });
@@ -53,14 +55,38 @@ function Weeks() {
 
     return (
         <div className="container">
-            <h1>Weeks</h1>
-            {renderWeeks()}
-            <input id="addInput" type="number" min="1" max="31" onChange={dateChange} placeholder="Day" />
-            <button onClick={handleSaveWeek}>Add</button>
-            <p className="note">*Make sure the day is a Monday. For example, the date 10/5/2020, you would put 5, which is a Monday, for day to add*</p>
-            <div className="space"></div>
-            {<Link className="link" to={`/${year}/${monthAndMonthID}/monthSummary`}><h4 id="review">Month Review</h4></Link>}
+            <h1 style={{textAlign:"center"}}>Weeks</h1>
+
+            <Grid container direction="column" justifyContent="center" alignItems="center">
+                <Grid item alignItems="center" style={{justifyItems:'center'}}>
+                    <Stack spacing={2}>
+                        <Card>
+                            <Stack divider={<Divider />}>
+                                {renderWeeks()}
+                            </Stack>
+                            <TextField
+                                onChange={dateChange}
+                                fullWidth
+                                id="filled-number"
+                                label="Day"
+                                type="number"
+                                max='2000'
+                                inputProps={{
+                                    min: "1", 
+                                    max: "31"
+                                }}
+                            />
+                        </Card>
+                        <p style={{width: '100%', padding: '0'}}> *Make sure the day is a Monday. <br></br>For example, the date 10/5/2020, you would put 5*</p>
+                        <Button variant='contained' onClick={handleSaveWeek}>Add Next Week!</Button>
+                        <Button id="summary" variant='outlined' onClick={() => navigate(`/${year}/${monthAndMonthID}/monthSummary`)}>
+                            <h2 style={{textAlign:'center', cursor: 'pointer'}}>Month Summary!</h2>
+                        </Button>
+                    </Stack>
+                </Grid>    
+            </Grid>
         </div>
+        
     )
 }
 

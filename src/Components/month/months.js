@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import yearBar from './yearBar';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Button, Card, Grid, Stack, Divider } from '@mui/material';
+import YearBar from './yearBar';
 import Express from './../../fetchExpress';
 // import { SwitchRight } from '@mui/icons-material';
 
@@ -10,6 +11,7 @@ function Months() {
     const [months, setMonths] = useState([]);
 
     const { year } = useParams();
+    const navigate = useNavigate();
 
     useEffect(async () => {
         // Express.getMonths(year).then(savedMonths => setMonths(savedMonths))
@@ -48,12 +50,15 @@ function Months() {
                 break;
             case 9:
                 createMonth(year, 'October');
+                console.log('Oct')
                 break;
             case 10:
                 createMonth(year, 'November');
+                console.log('Nov')
                 break;
             case 11:
                 createMonth(year, 'December');
+                console.log('Dec')
                 break;
             case 12:
                 createMonth(year, 'Done!');
@@ -70,24 +75,24 @@ function Months() {
     const renderDeleteButton = (id) => {
         const monthToRenderDelete = months.length - 1;
         if(months[monthToRenderDelete].id == id){
-            return <button onClick={() => Express.deleteMonth(year,id).then(checkError400 => {
+            return <Button style={{margin: '10px'}} variant='outlined' onClick={() => Express.deleteMonth(year,id).then(checkError400 => {
                 if(checkError400){
                     return;
                 } setMonths(currentMonths => currentMonths.filter(currentMonth => currentMonth.id != id));
-            })}>delete</button>;
+            })}>delete</Button>;
         };
     };
 
     const renderMonths = () => {
         return months.map(month => {
-            if(month.month == 'Done!'){
-                return <div className="deleteContainer">
+            if(month.month === 'Done!'){
+                return <div style={{margin: '20px', textAlign: 'center'}}>
                             <h3>{month.month}</h3>
                             {renderDeleteButton(month.id)}
                         </div>
             }
             return (
-                <div className="deleteContainer">
+                <div style={{margin: '20px', textAlign: 'center'}}>
                     <Link className="link" to={`/${month.year}/${month.month}${month.id}`}
                         key={month.id}>
                         <h3>{month.month}</h3>
@@ -100,10 +105,22 @@ function Months() {
 
     return (
         <div>
-            <h1>Yearbar</h1>
-            <h2>{renderMonths()}</h2>
-            <button onClick={handleAddMonth}>Add month</button>
-            <Link to={`/${year}/yearReview`}><h4>Year Review!</h4></Link>
+            <YearBar months={months} />
+            <Grid container direction="column" justifyContent="center" alignItems="center">
+                <Grid item alignItems="center" style={{justifyItems:'center'}}>
+                    <Stack spacing={2}>
+                        <Card>
+                            <Stack divider={<Divider />}>
+                                {renderMonths()}
+                            </Stack>
+                        </Card>
+                        <Button variant='contained' onClick={handleAddMonth}>Add Next Month!</Button>
+                            <Button id="summary" variant='outlined' onClick={() => navigate(`/${year}/yearReview`)}>
+                                <h2 style={{textAlign:'center', cursor: 'pointer'}}>Year Summary!</h2>
+                            </Button>
+                    </Stack>
+                </Grid>    
+            </Grid>
         </div>
     )
 }

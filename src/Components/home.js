@@ -1,12 +1,14 @@
 import { expressionStatement } from '@babel/types';
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Typography, Card, Grid, Container } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Button, TextField, Card, Grid, Divider, Stack } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import Express from './../fetchExpress';
 
 function HomePage() {
     const [years, setYears] = useState([]);
     const [yearChange, setYearChange] = useState(['']);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         Express.getYears().then(savedYears => setYears(savedYears.years));
@@ -38,12 +40,12 @@ function HomePage() {
     const renderYears = () => {
         return years.map(year => {
             return (
-                <div>
-                    <Link className="link" to={`/${year.year}`}
+                <div style={{textAlign:"center"}}>
+                    <Link color='primary' to={`/${year.year}`}
                         key={year.id}>
-                        <h3>{year.year}</h3>
+                        <h2>{year.year}</h2>
                     </Link>
-                    <button value={year.year} onClick={handleDeleteYear}>Delete</button>
+                    <Button style={{margin: '10px'}} variant='outlined' value={year.year} onClick={handleDeleteYear}>Delete</Button>
                 </div>
             );
         });
@@ -52,22 +54,31 @@ function HomePage() {
 
     return (
         <div>
-            <h1>Grit</h1>
-            <Container>
-                <Grid container item md={6}>
-                    <Grid item md={4}>
+            <Grid container direction="column" justifyContent="center" alignItems="center">
+                <Grid item alignItems="center" style={{justifyItems:'center'}}>
+                    <Stack spacing={2}>
                         <Card>
-                            {renderYears()}
-
-                            <Input type='number' onChange={handleYearChange} />
-                            <Button variant='contained' onClick={handleSaveYear}>Add Next Year!</Button>
+                            <Stack divider={<Divider />} spacing={2}>
+                                {renderYears()}
+                            </Stack>
+                            <TextField
+                                onChange={handleYearChange}
+                                fullWidth
+                                id="filled-number"
+                                label="Year"
+                                type="number"
+                                inputProps={{
+                                    min: '2020'
+                                }}
+                            />
                         </Card>
-                        <Link to='/totalSummary'>
-                            Total Summary!
-                        </Link>
-                    </Grid>    
-                </Grid>
-            </Container>    
+                        <Button variant='contained' onClick={handleSaveYear}>Add Next Year!</Button>
+                            <Button id="summary" variant='outlined' onClick={() => navigate('/totalSummary')}>
+                                <h2 style={{textAlign:'center', cursor: 'pointer'}}>Total Summary!</h2>
+                            </Button>
+                    </Stack>
+                </Grid>    
+            </Grid>
         </div>
     )
 }
