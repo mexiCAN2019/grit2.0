@@ -38,7 +38,7 @@ function YearBar({ months }) {
 
 
     return (
-        <div className="yearBarContainer">
+        <div className="yearBarContainer" style={{width: '75vw', maxWidth: '600px'}}>
             <h2>{renderPercentage()}%</h2> of the year finished!
             <Line percent={renderPercentage()} strokeWidth={4} strokeColor="#081b4d" trailColor='#D3D3D3' trailWidth={4} />
         </div>

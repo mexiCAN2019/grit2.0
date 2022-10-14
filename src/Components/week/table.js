@@ -8,12 +8,16 @@ import {
     Card,
     TableContainer,
     Table,
-    TableHead,
     TableRow,
-    TableCell
+    TableCell,
+    Dialog,
+    DialogTitle,
+    Container
 } from '@mui/material'
 
 function Tables({ activity, year, onDelete, handleSnackBar }) {
+    const [editOpen, setEditOpen] = useState(false);
+    const [windowSize, setWindowSize] = useState(window.innerWidth);
     const [skillName, setSkillName] = useState(activity.skillName);
 
     const [learningMondayHours, setLearningMondayHours] = useState(activity.learningMondayHours);
@@ -82,6 +86,12 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
     useEffect(() => {
         handleAddTime();
     }, [])
+
+    useEffect(() => {
+          window.addEventListener("resize", () => setWindowSize(window.innerWidth));
+      
+          return () => window.removeEventListener("resize", () => setWindowSize(window.innerWidth)) 
+    }, []);
 
     const addLearningTime = () => {
 
@@ -287,7 +297,198 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
                 handleSnackBar('error')
             }
         });
+
+        setEditOpen(false);
     };
+
+
+    if(windowSize < 1100) {
+        return (
+            <Card style={{margin: '30px 100px', padding: '15px', borderRadius: '10px', maxWidth: '220px'}}>
+                <TextField required style={{display: 'block', marginBottom: ''}} id="outlined-required" label="Skill" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)} />
+                <div style={{margin: '10px 0px 20px 0px'}}>
+                    <Button style={{marginRight: '20px'}} variant='outlined' onClick={() => onDelete('table', activity)}>Delete</Button>
+                    <Button onClick={()=> setEditOpen(true)} variant='contained'>Edit</Button>
+                </div>
+                <p> <u>Learning</u>: {totalLearningHours} hrs {totalLearningMinutes} min</p>
+                <p> <u>Practicing</u>: {totalPracticingHours} hrs {totalPracticingMinutes} min</p>
+                <p> <u>Performing</u>: {totalPerformingHours} hrs {totalPerformingMinutes} min</p>
+                <p> <strong>Total</strong>: {overallHours} hrs {overallMinutes} min</p>
+                <p> <strong>Total Goal</strong>: {totalGoalHours} hrs {totalGoalMinutes} min</p>
+                <span>{windowSize}</span>
+
+                <Dialog onClose={() => setEditOpen(false)} open={editOpen} fullWidth={true} maxWidth="md">
+                <Container>
+                    <DialogTitle>Learning</DialogTitle>
+                    <Grid container rowSpacing={3} columnSpacing={2}>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Monday Hours" defaultValue={activity.learningMondayHours} onChange={(e) => setLearningMondayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Monday Minutes" defaultValue={activity.learningMondayMinutes} onChange={(e) => setLearningMondayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Tuesday Hours" defaultValue={activity.learningTuesdayHours} onChange={(e) => setLearningTuesdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Tuesday Minutes" defaultValue={activity.learningTuesdayMinutes} onChange={(e) => setLearningTuesdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Wednesday Hours" defaultValue={activity.learningWednesdayHours} onChange={(e) => setLearningWednesdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Wednesday Minutes" defaultValue={activity.learningWednesdayMinutes} onChange={(e) => setLearningWednesdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Thursday Hours" defaultValue={activity.learningThursdayHours} onChange={(e) => setLearningThursdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Thursday Minutes" defaultValue={activity.learningThursdayMinutes} onChange={(e) => setLearningThursdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Friday Hours" defaultValue={activity.learningFridayHours} onChange={(e) => setLearningFridayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Friday Minutes" defaultValue={activity.learningFridayMinutes} onChange={(e) => setLearningFridayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Saturday Hours" defaultValue={activity.learningSaturdayHours} onChange={(e) => setLearningSaturdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Saturday Minutes" defaultValue={activity.learningSaturdayMinutes} onChange={(e) => setLearningSaturdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Sunday Hours" defaultValue={activity.learningSundayHours} onChange={(e) => setLearningSundayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Sunday Minutes" defaultValue={activity.learningSundayMinutes} onChange={(e) => setLearningSundayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Goal Hours" defaultValue={activity.learningSaturdayHours} onChange={(e) => setLearningGoalHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Goal Minutes" defaultValue={activity.learningSaturdayMinutes} onChange={(e) => setLearningGoalMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                    </Grid>
+                    <DialogTitle>Practicing</DialogTitle>
+                    <Grid container rowSpacing={3} columnSpacing={2}>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Monday Hours" defaultValue={activity.practicingMondayHours} onChange={(e) => setPracticingMondayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Monday Minutes" defaultValue={activity.practicingMondayMinutes} onChange={(e) => setPracticingMondayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Tuesday Hours" defaultValue={activity.practicingTuesdayHours} onChange={(e) => setPracticingTuesdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Tuesday Minutes" defaultValue={activity.practicingTuesdayMinutes} onChange={(e) => setPracticingTuesdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Wednesday Hours" defaultValue={activity.practicingWednesdayHours} onChange={(e) => setPracticingWednesdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Wednesday Minutes" defaultValue={activity.practicingWednesdayMinutes} onChange={(e) => setPracticingWednesdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Thursday Hours" defaultValue={activity.practicingThursdayHours} onChange={(e) => setPracticingThursdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Thursday Minutes" defaultValue={activity.practicingThursdayMinutes} onChange={(e) => setPracticingThursdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Friday Hours" defaultValue={activity.practicingFridayHours} onChange={(e) => setPracticingFridayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Friday Minutes" defaultValue={activity.practicingFridayMinutes} onChange={(e) => setPracticingFridayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Saturday Hours" defaultValue={activity.practicingSaturdayHours} onChange={(e) => setPracticingSaturdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Saturday Minutes" defaultValue={activity.practicingSaturdayMinutes} onChange={(e) => setPracticingSaturdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Sunday Hours" defaultValue={activity.practicingSundayHours} onChange={(e) => setPracticingSundayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Sunday Minutes" defaultValue={activity.practicingSundayMinutes} onChange={(e) => setPracticingSundayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Goal Hours" defaultValue={activity.practicingSaturdayHours} onChange={(e) => setPracticingGoalHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Goal Minutes" defaultValue={activity.practicingSaturdayMinutes} onChange={(e) => setPracticingGoalMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                    </Grid>
+                    <DialogTitle>Performing</DialogTitle>
+                    <Grid container rowSpacing={3} columnSpacing={2}>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Monday Hours" defaultValue={activity.performingMondayHours} onChange={(e) => setPerformingMondayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Monday Minutes" defaultValue={activity.performingMondayMinutes} onChange={(e) => setPerformingMondayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Tuesday Hours" defaultValue={activity.performingTuesdayHours} onChange={(e) => setPerformingTuesdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Tuesday Minutes" defaultValue={activity.performingTuesdayMinutes} onChange={(e) => setPerformingTuesdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Wednesday Hours" defaultValue={activity.performingWednesdayHours} onChange={(e) => setPerformingWednesdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Wednesday Minutes" defaultValue={activity.performingWednesdayMinutes} onChange={(e) => setPerformingWednesdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Thursday Hours" defaultValue={activity.performingThursdayHours} onChange={(e) => setPerformingThursdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Thursday Minutes" defaultValue={activity.performingThursdayMinutes} onChange={(e) => setPerformingThursdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Friday Hours" defaultValue={activity.performingFridayHours} onChange={(e) => setPerformingFridayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Friday Minutes" defaultValue={activity.performingFridayMinutes} onChange={(e) => setPerformingFridayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Saturday Hours" defaultValue={activity.performingSaturdayHours} onChange={(e) => setPerformingSaturdayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Saturday Minutes" defaultValue={activity.performingSaturdayMinutes} onChange={(e) => setPerformingSaturdayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Sunday Hours" defaultValue={activity.performingSundayHours} onChange={(e) => setPerformingSundayHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Sunday Minutes" defaultValue={activity.performingSundayMinutes} onChange={(e) => setPerformingSundayMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Goal Hours" defaultValue={activity.performingSaturdayHours} onChange={(e) => setPerformingGoalHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField type="number" inputProps={{min: '0'}} label="Goal Minutes" defaultValue={activity.performingSaturdayMinutes} onChange={(e) => setPerformingGoalMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                    </Grid>
+                    <DialogTitle>Total Hours <span>*required</span></DialogTitle>
+                    <Grid container rowSpacing={3} columnSpacing={2}>
+                        <Grid item xs={6}>
+                            <span><TextField required type="number" inputProps={{min: '0'}} label="Total Goal Hours" defaultValue={activity.totalGoalHours} onChange={(e) => setTotalGoalHours(Number(e.target.value))} /> hrs</span>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <span><TextField required type="number" inputProps={{min: '0'}} label="Total Goal Minutes" defaultValue={activity.totalGoalMinutes} onChange={(e) => setTotalGoalMinutes(Number(e.target.value))} /> min</span>
+                        </Grid>
+                    </Grid>
+                    <p>Click "Add Time" twice before saving changes</p>
+                    <Button style={{margin: 'auto, 10px'}} variant='outlined' onClick={handleAddTime}>Add Time</Button> {/* have to double click to add total time */}
+                    <Button style={{}} variant='contained' onClick={handleSaveChanges}>Save Changes</Button>
+                </Container>
+            </Dialog>
+            </Card>
+        )
+    }
 
     return (
         <Grid container alignItems="center" direction="column" spacing={2}>

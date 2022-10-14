@@ -155,26 +155,26 @@ function Week() {
             <Grid item justifyContent='center' alignItems="center">
                 <h1 style={{textAlign:'center'}}>This Week</h1>
                 <Divider />
-                <Card style={{margin: '30px 200px', padding: '15px', borderRadius: '10px'}}>
-                <Stack justifyContent="center" direction={{ sm: 'column', md: 'row' }} spacing={{sm: 5, md: 8 }}>
-                    <div style={{display: "flex", alignItems: "center"}}>
-                        <label style={{marginRight: "10px"}}>Name of Skill</label>
-                        <TextField required id="outlined-required" onChange={handleActivityChange} size="small" />
-                    </div>
-                    <div>
-                        <label >Choose Type</label>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            onChange={handleFormChange}
-                        >
-                            <MenuItem value="table">Hours & Min</MenuItem>
-                            <MenuItem value="checkbox">Checkboxes</MenuItem>
-                            <MenuItem value="textbox">Textbox</MenuItem>
-                        </Select>
-                    </div>
-                    <Button size="small" variant='contained' onClick={onAdd}>Add</Button>
-                </Stack>
+                <Card style={{margin: '30px auto', padding: '15px', borderRadius: '10px', minWidth: '300px', width: '60vw'}}>
+                    <Stack justifyContent="center" direction={{ xs: 'column', sm: 'column', md: 'row' }} spacing={{xs: 3, sm: 5, md: 8 }}>
+                        <div style={{display: "flex", alignItems: "center"}}>
+                            <label style={{marginRight: "10px"}}>Name of Skill</label>
+                            <TextField required id="outlined-required" onChange={handleActivityChange} size="small" />
+                        </div>
+                        <div>
+                            <label >Choose Type</label>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                onChange={handleFormChange}
+                            >
+                                <MenuItem value="table">Hours & Min</MenuItem>
+                                <MenuItem value="checkbox">Checkboxes</MenuItem>
+                                <MenuItem value="textbox">Textbox</MenuItem>
+                            </Select>
+                        </div>
+                        <Button size="small" variant='contained' onClick={onAdd}>Add</Button>
+                    </Stack>
                 </Card>
                 <Divider />
             </Grid>

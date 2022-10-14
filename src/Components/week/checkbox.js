@@ -71,12 +71,11 @@ function Checkboxes({ activity, year, onDelete, handleSnackBar }) {
     };
 
     return (
-        <Card style={{margin: '30px 100px', padding: '15px', borderRadius: '20px'}}>
+        <Card style={{margin: '30px 100px', padding: '15px', borderRadius: '20px', width: '225px'}}>
             <TextField required id="outlined-required" label="Skill" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)} />
-            <br></br>
-            <div style={{margin: '15px auto'}}>
-                <Button style={{}} variant='outlined' onClick={() => onDelete('checkbox', activity)}>Delete</Button>
-                <Button style={{}} variant='contained' onClick={updateCheckbox}>Save Changes</Button>
+            <div style={{margin: '15px auto', style: 'block'}}>
+                <Button style={{marginBottom: '15px'}} variant='contained' onClick={updateCheckbox}>Save Changes</Button>
+                <Button variant='outlined' onClick={() => onDelete('checkbox', activity)}>Delete</Button>
             </div>
             <FormControl>
                 <FormLabel>Days</FormLabel>
