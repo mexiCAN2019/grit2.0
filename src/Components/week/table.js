@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Express from './../../fetchExpress';
-// import './table.css';
+import './table.css';
 import { 
     TextField,
     Button,
@@ -302,7 +302,7 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
     };
 
 
-    if(windowSize < 1100) {
+    if(windowSize < 1200) {
         return (
             <Card style={{margin: '30px 100px', padding: '15px', borderRadius: '10px', maxWidth: '220px'}}>
                 <TextField required style={{display: 'block', marginBottom: ''}} id="outlined-required" label="Skill" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)} />
@@ -318,14 +318,14 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
                 <span>{windowSize}</span>
 
                 <Dialog onClose={() => setEditOpen(false)} open={editOpen} fullWidth={true} maxWidth="md">
-                <Container>
+                <Container className="table">
                     <DialogTitle>Learning</DialogTitle>
                     <Grid container rowSpacing={3} columnSpacing={2}>
                         <Grid item xs={6}>
                             <span><TextField type="number" inputProps={{min: '0'}} label="Monday Hours" defaultValue={activity.learningMondayHours} onChange={(e) => setLearningMondayHours(Number(e.target.value))} /> hrs</span>
                         </Grid>
                         <Grid item xs={6}>
-                            <span><TextField type="number" inputProps={{min: '0'}} label="Monday Minutes" defaultValue={activity.learningMondayMinutes} onChange={(e) => setLearningMondayMinutes(Number(e.target.value))} /> min</span>
+                            <span><TextField className="minutes" type="number" inputProps={{min: '0'}} label="Monday Minutes" defaultValue={activity.learningMondayMinutes} onChange={(e) => setLearningMondayMinutes(Number(e.target.value))} /> min</span>
                         </Grid>
                         <Grid item xs={6}>
                             <span><TextField type="number" inputProps={{min: '0'}} label="Tuesday Hours" defaultValue={activity.learningTuesdayHours} onChange={(e) => setLearningTuesdayHours(Number(e.target.value))} /> hrs</span>
@@ -494,12 +494,13 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
         <Grid container alignItems="center" direction="column" spacing={2}>
             <Card style={{margin: '30px 100px', padding: '15px', borderRadius: '10px'}}>
             <Grid item>
-            <TextField required id="outlined-required" label="Skill" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)} />
-            </Grid>
-            <Grid item justifyContent="space-around">
-                    <Button style={{}} variant='outlined' onClick={() => onDelete('table', activity)}>Delete</Button>
-                    <Button style={{margin: 'auto, 10px'}} variant='outlined' onClick={handleAddTime}>Add Time</Button> {/* have to double click to add total time */}
-                    <Button style={{}} variant='contained' onClick={handleSaveChanges}>Save Changes</Button>
+                <TextField required id="outlined-required" label="Skill" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)} />
+                <div style={{display: 'block', margin: '20px 0px 10px 0px'}}>
+                    <p><em>Click "Add Time" twice before saving changes</em></p>
+                    <Button variant='outlined' onClick={() => onDelete('table', activity)}>Delete</Button>
+                    <Button style={{margin: 'auto 10px'}} variant='outlined' onClick={handleAddTime}>Add Time</Button> {/* have to double click to add total time */}
+                    <Button  variant='contained' onClick={handleSaveChanges}>Save Changes</Button>
+                </div>
             </Grid>
             <Grid item>
             <TableContainer>

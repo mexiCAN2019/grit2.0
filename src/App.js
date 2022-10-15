@@ -31,7 +31,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Link to="/">
-        <h1 style={{textAlign: 'center', margin: '5px auto 30px', color: 'black'}}>GRIT</h1>
+        <h1 style={{textAlign: 'center', margin: '5px auto 30px', color: 'Seashell'}}>GRIT</h1>
       </Link>  
       <Routes>
         <Route path='/' element={<HomePage />} />

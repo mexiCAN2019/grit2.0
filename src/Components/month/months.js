@@ -13,10 +13,14 @@ function Months() {
     const { year } = useParams();
     const navigate = useNavigate();
 
-    useEffect(async () => {
+    useEffect(() => {
         // Express.getMonths(year).then(savedMonths => setMonths(savedMonths))
-        const fetchedMonths = await Express.getMonths(year);
-        setMonths(fetchedMonths);
+        async function fetchData() {
+            const fetchedMonths = await Express.getMonths(year);
+            setMonths(fetchedMonths);
+        }
+
+        fetchData();
     }, []);
 
     const handleAddMonth = () => {
@@ -74,12 +78,12 @@ function Months() {
 
     const renderDeleteButton = (id) => {
         const monthToRenderDelete = months.length - 1;
-        if(months[monthToRenderDelete].id == id){
+        if(months[monthToRenderDelete].id === id){
             return <Button style={{margin: '10px'}} variant='outlined' onClick={() => Express.deleteMonth(year,id).then(checkError400 => {
                 if(checkError400 === 400){
                     return '';
                 } else{
-                    setMonths(currentMonths => currentMonths.filter(currentMonth => currentMonth.id != id));
+                    setMonths(currentMonths => currentMonths.filter(currentMonth => currentMonth.id !== id));
                 }
             })}>delete</Button>;
         };

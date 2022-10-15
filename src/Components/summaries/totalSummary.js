@@ -54,7 +54,7 @@ function TotalSummary() {
 
     return (
         <Container>
-            <h2 style={{textAlign:"center"}} className='primary'>Total Summary</h2>
+            <h2 style={{textAlign:"center"}}>Total Summary</h2>
                 <h5 style={{textAlign:"center"}}><i>it takes 10,000 hours to become a pro!</i></h5>
             <Grid container justifyContent="center" alignItems="center" rowSpacing={5}>
                 <Grid item sm={7}>

@@ -6,7 +6,6 @@ function YearBar({ months }) {
 
     const renderPercentage = () => {
         switch(months.length) {
-            case 0:
             case 1:
                 return 0
             case 2:
@@ -33,6 +32,8 @@ function YearBar({ months }) {
                 return 92
             case 13:
                 return 100
+            default:
+                return 0;
         };
     }; 
 

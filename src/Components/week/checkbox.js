@@ -47,6 +47,8 @@ function Checkboxes({ activity, year, onDelete, handleSnackBar }) {
             case 'sunday':
                 setSundayChecked(itemCheck);
                 break;
+            default:
+                break;
         };
     };
 

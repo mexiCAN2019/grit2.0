@@ -1,4 +1,3 @@
-import { expressionStatement } from '@babel/types';
 import React, { useState, useEffect } from 'react';
 import { Button, TextField, Card, Grid, Divider, Stack } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,7 +20,7 @@ function HomePage() {
     }
 
     const handleSaveYear = () => {
-        const repetitiveYear = years.find(year => year.year == yearChange); 
+        const repetitiveYear = years.find(year => year.year === yearChange); 
         if(!yearChange || repetitiveYear) {
             return;
         } else {
@@ -35,7 +34,7 @@ function HomePage() {
             if(checkError400 === 400){
                 return '';
             } else{
-                setYears(currentYear => currentYear.filter(currentyear => currentyear.year != year))
+                setYears(currentYear => currentYear.filter(currentyear => currentyear.year !== year))
             }
         });
     };
@@ -43,9 +42,8 @@ function HomePage() {
     const renderYears = () => {
         return years.map(year => {
             return (
-                <div style={{textAlign:"center"}}>
-                    <Link color='primary' to={`/${year.year}`}
-                        key={year.id}>
+                <div style={{textAlign:"center"}} key={year.id}>
+                    <Link color='primary' to={`/${year.year}`}>
                         <h2>{year.year}</h2>
                     </Link>
                     <Button style={{margin: '10px'}} variant='outlined' value={year.year} onClick={handleDeleteYear}>Delete</Button>

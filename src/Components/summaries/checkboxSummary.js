@@ -1,10 +1,4 @@
 import React from 'react';
-import { 
-    Box,
-    Container,
-    Divider,
-    Stack
-} from '@mui/material'
 
 function CheckboxSummary({ skill }) {
     const {skillName, mondayTotal, tuesdayTotal, wednesdayTotal, thursdayTotal, fridayTotal, saturdayTotal, sundayTotal} = skill;

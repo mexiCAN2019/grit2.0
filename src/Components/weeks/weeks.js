@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { Input, Button, TextField, Card, Grid, Divider, Stack, Container } from '@mui/material';
+import { Button, TextField, Card, Grid, Divider, Stack } from '@mui/material';
 import Express from './../../fetchExpress'
 
 function Weeks() {
@@ -37,7 +37,7 @@ function Weeks() {
             if(checkError400 === 400){
                 return '';
             } else{
-                setWeeks(currentWeek => currentWeek.filter(week => week.id != weekId))
+                setWeeks(currentWeek => currentWeek.filter(week => week.id !== weekId))
             }
         });
     };

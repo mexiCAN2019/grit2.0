@@ -60,7 +60,7 @@ function YearSummary() {
 
     return (
         <Container>
-            <h1 style={{textAlign:"center"}} className='primary'>Year Review</h1>
+            <h1 style={{textAlign:"center"}}>Year Review</h1>
             <Grid container justifyContent="center" rowSpacing={5}>
                 <Grid item sm={7}>
                     <Card>

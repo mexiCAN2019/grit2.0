@@ -60,7 +60,7 @@ function MonthSummary() {
 
     return (
         <Container>
-            <h2 style={{textAlign:"center"}} className='primary'>Month Summary</h2>
+            <h2 style={{textAlign:"center"}}>Month Summary</h2>
             <Grid container justifyContent="center" rowSpacing={5}>
                 <Grid item sm={7}>
                     <Card>

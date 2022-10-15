@@ -1,8 +1,5 @@
 import React from 'react';
 import { 
-    Box,
-    Container,
-    Divider,
     Stack
 } from '@mui/material'
 
@@ -25,13 +22,13 @@ function TableSummary({ skill }) {
                 <h4 style={{display:'flex', justifyContent:'center'}}><div>Total Time:<br></br> {renderTime(totalActualHours, totalActualMinutes)}</div></h4>
                 
                 <Stack direction="row" style={{margin: '15px'}}>
-                    <div>Total Time Practicing:
+                    <div>Practicing:
                     {renderTime(practicingActualHours, practicingActualMinutes)}</div>
 
-                    <div style={{margin: 'auto 40px'}}>Total Time Learning: 
+                    <div style={{margin: 'auto 40px'}}>Learning: 
                     {renderTime(learningActualHours, learningActualMinutes)}</div>
 
-                    <div>Total Time Performing: 
+                    <div>Performing: 
                     {renderTime(performingActualHours, performingActualMinutes)}</div>
                     
                 </Stack>

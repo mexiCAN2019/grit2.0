@@ -146,6 +146,8 @@ function Week() {
                     });
                 }
                 break;
+            default:
+                break;
         };
     };
 
