@@ -24,17 +24,23 @@ function HomePage() {
         if(!yearChange || repetitiveYear) {
             return;
         } else {
-            Express.createYear(yearChange).then(newYear => setYears(currentYears => [{id: 0, year: newYear}, ...currentYears]));
+            Express.createYear(yearChange).then(newYear => setYears(currentYears => newYear > years[0].year ? [{year: newYear}, ...currentYears] : [...currentYears, {year: newYear}]));
         };
     };
 
     const handleDeleteYear = (e) => {
-        const year = e.target.value;
+        const year = Number(e.target.value);
+        console.log(typeof year)
         Express.deleteYear(year).then(checkError400 => {
             if(checkError400 === 400){
                 return '';
             } else{
-                setYears(currentYear => currentYear.filter(currentyear => currentyear.year !== year))
+                const filteredYears = years.filter(currentYear => {
+                    console.log(currentYear.year, typeof currentYear.year);
+                    return currentYear.year != year
+                })
+                console.log(filteredYears)
+                setYears(filteredYears);
             }
         });
     };
@@ -42,7 +48,7 @@ function HomePage() {
     const renderYears = () => {
         return years.map(year => {
             return (
-                <div style={{textAlign:"center"}} key={year.id}>
+                <div style={{textAlign:"center"}} key={year.year}>
                     <Link color='primary' to={`/${year.year}`}>
                         <h2>{year.year}</h2>
                     </Link>

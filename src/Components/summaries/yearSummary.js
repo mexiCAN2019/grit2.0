@@ -62,10 +62,11 @@ function YearSummary() {
         <Container>
             <h1 style={{textAlign:"center"}}>Year Review</h1>
             <Grid container justifyContent="center" rowSpacing={5}>
-                <Grid item sm={7}>
-                    <Card>
+                <Grid item xs={7} md={5} style={{minWidth: '351px'}}>
+                    <Card style={{minWidth: '351px'}}>
                         <CardContent>
                             <Stack direction="column" spacing={2} divider={<Divider />}>
+                                {((tableSkills && checkboxSkills) == false) && "Nothing to show yet! Add some skills to see how far you've come!"}
                                 {tableSkills.map(skill => {
                                     return <TableSummary skill={skill} />
                                 })}
@@ -76,7 +77,7 @@ function YearSummary() {
                         </CardContent>
                     </Card>
                 </Grid>
-                <Grid item sm={12} style={{marginBottom: '20px'}}>
+                <Grid item xs={12} md={10} style={{marginBottom: '20px'}}>
                     <Card>
                         <CardContent>
                             <h3>Thoughts/Notes</h3>
