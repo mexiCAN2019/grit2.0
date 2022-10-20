@@ -84,8 +84,32 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
     const [overallMinutes, setOverallMinutes] = useState(0);
 
     useEffect(() => {
-        handleAddTime();
-    }, [])
+        setTotalLearningHours(addTime('hours', 'learning'));
+        setTotalLearningMinutes(addTime('min', 'learning'));
+
+    }, [learningMondayHours, learningTuesdayHours, learningWednesdayHours, learningThursdayHours, learningFridayHours, learningSaturdayHours, learningSundayHours, 
+        learningMondayMinutes, learningTuesdayMinutes, learningWednesdayMinutes, learningThursdayMinutes, learningFridayMinutes, learningSaturdayMinutes, learningSundayMinutes]);
+
+    useEffect(() => {
+        setTotalPracticingHours(addTime('hours', 'practicing'));
+        setTotalPracticingMinutes(addTime('min', 'practicing'));
+        
+    }, [practicingMondayHours, practicingTuesdayHours, practicingWednesdayHours, practicingThursdayHours, practicingFridayHours, practicingSaturdayHours, practicingSundayHours, 
+        practicingMondayMinutes, practicingTuesdayMinutes, practicingWednesdayMinutes, practicingThursdayMinutes, practicingFridayMinutes, practicingSaturdayMinutes, practicingSundayMinutes]);
+
+    useEffect(() => {
+        setTotalPerformingHours(addTime('hours', 'performing'));
+        setTotalPerformingMinutes(addTime('min', 'performing'));
+        
+    }, [performingMondayHours, performingTuesdayHours, performingWednesdayHours, performingThursdayHours, performingFridayHours, performingSaturdayHours, performingSundayHours, 
+        performingMondayMinutes, performingTuesdayMinutes, performingWednesdayMinutes, performingThursdayMinutes, performingFridayMinutes, performingSaturdayMinutes, performingSundayMinutes]);
+
+    useEffect(() => {
+        setOverallHours(addTime('hours', 'overall'));
+        setOverallMinutes(addTime('min', 'overall'));
+        
+    }, [totalLearningHours, totalPracticingHours, totalPerformingHours,
+        totalLearningMinutes, totalPracticingMinutes, totalPerformingMinutes]);
 
     useEffect(() => {
           window.addEventListener("resize", () => setWindowSize(window.innerWidth));
@@ -93,73 +117,56 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
           return () => window.removeEventListener("resize", () => setWindowSize(window.innerWidth)) 
     }, []);
 
-    const addLearningTime = () => {
-
-        const totalHours = learningMondayHours + learningTuesdayHours + learningWednesdayHours + learningThursdayHours + learningFridayHours + learningSaturdayHours + learningSundayHours;
-        const totalMinutes = learningMondayMinutes + learningTuesdayMinutes + learningWednesdayMinutes + learningThursdayMinutes + learningFridayMinutes + learningSaturdayMinutes + learningSundayMinutes;
-        if(totalMinutes >= 60){
-            const hoursToAdd = Math.floor(totalMinutes / 60);
-            const minutesRemainder = Math.round(totalMinutes % 60);
-            setTotalLearningHours(totalHours + hoursToAdd)
-            setTotalLearningMinutes(minutesRemainder);
-        } else {
-            setTotalLearningHours(totalHours);
-            setTotalLearningMinutes(totalMinutes);
-        };
+    
+    const addTime = (hoursOrMin, category) => {
+        let totalHours;
+        let totalMinutes;
+        switch(category){
+            case 'practicing':
+                const practicingHours = practicingMondayHours + practicingTuesdayHours + practicingWednesdayHours + practicingThursdayHours + practicingFridayHours + practicingSaturdayHours + practicingSundayHours;
+                const pracitcingMinutes = practicingMondayMinutes + practicingTuesdayMinutes + practicingWednesdayMinutes + practicingThursdayMinutes + practicingFridayMinutes + practicingSaturdayMinutes + practicingSundayMinutes;
+                totalHours = practicingHours;
+                totalMinutes = pracitcingMinutes;
+                break;
+            case 'learning':
+                const learningHours = learningMondayHours + learningTuesdayHours + learningWednesdayHours + learningThursdayHours + learningFridayHours + learningSaturdayHours + learningSundayHours;
+                const learningMinutes = learningMondayMinutes + learningTuesdayMinutes + learningWednesdayMinutes + learningThursdayMinutes + learningFridayMinutes + learningSaturdayMinutes + learningSundayMinutes;
+                totalHours = learningHours;
+                totalMinutes = learningMinutes;
+                break;
+            case 'performing':
+                const performingHours = performingMondayHours + performingTuesdayHours + performingWednesdayHours + performingThursdayHours + performingFridayHours + performingSaturdayHours + performingSundayHours;
+                const performingMinutes = performingMondayMinutes + performingTuesdayMinutes + performingWednesdayMinutes + performingThursdayMinutes + performingFridayMinutes + performingSaturdayMinutes + performingSundayMinutes;
+                totalHours = performingHours;
+                totalMinutes = performingMinutes;
+                break;
+            case 'overall':
+                const overallHours = totalLearningHours + totalPracticingHours + totalPerformingHours;
+                const overallMinutes = totalLearningMinutes + totalPracticingMinutes + totalPerformingMinutes;
+                totalHours = overallHours;
+                totalMinutes = overallMinutes;
+                break;
+            default:
+                break;
+        }
+        
+        if(hoursOrMin === 'hours'){
+            if(totalMinutes >= 60){
+                const hoursToAdd = Math.floor(totalMinutes / 60);
+                return totalHours + hoursToAdd;
+            } else {
+                return totalHours;
+            };
+        }else{
+            if(totalMinutes >= 60){
+                const minutesRemainder = Math.round(totalMinutes % 60);
+                return minutesRemainder;
+            } else {
+                return totalMinutes;
+            };
+        }
     };
 
-    const addPracticingTime = () => {
-
-        const totalHours = practicingMondayHours + practicingTuesdayHours + practicingWednesdayHours + practicingThursdayHours + practicingFridayHours + practicingSaturdayHours + practicingSundayHours;
-        const totalMinutes = practicingMondayMinutes + practicingTuesdayMinutes + practicingWednesdayMinutes + practicingThursdayMinutes + practicingFridayMinutes + practicingSaturdayMinutes + practicingSundayMinutes;
-        console.log(totalHours);
-        console.log(totalMinutes);
-        if(totalMinutes >= 60){
-            const hoursToAdd = Math.floor(totalMinutes / 60);
-            const minutesRemainder = Math.round(totalMinutes % 60);
-            setTotalPracticingHours(totalHours + hoursToAdd)
-            setTotalPracticingMinutes(minutesRemainder);
-        } else {
-            setTotalPracticingHours(totalHours);
-            setTotalPracticingMinutes(totalMinutes);
-        };
-    };
-
-    const addPerformingTime = () => {
-
-        const totalHours = performingMondayHours + performingTuesdayHours + performingWednesdayHours + performingThursdayHours + performingFridayHours + performingSaturdayHours + performingSundayHours;
-        const totalMinutes = performingMondayMinutes + performingTuesdayMinutes + performingWednesdayMinutes + performingThursdayMinutes + performingFridayMinutes + performingSaturdayMinutes + performingSundayMinutes;
-        if(totalMinutes >= 60){
-            const hoursToAdd = Math.floor(totalMinutes / 60);
-            const minutesRemainder = Math.round(totalMinutes % 60);
-            setTotalPerformingHours(totalHours + hoursToAdd)
-            setTotalPerformingMinutes(minutesRemainder);
-        } else {
-            setTotalPerformingHours(totalHours);
-            setTotalPerformingMinutes(totalMinutes);
-        };
-    };
-
-    const addOverallTime = () => {
-        const totalHours = totalLearningHours + totalPracticingHours + totalPerformingHours;
-        const totalMinutes = totalLearningMinutes + totalPracticingMinutes + totalPerformingMinutes;
-        if(totalMinutes >= 60){
-            const hoursToAdd = Math.floor(totalMinutes / 60);
-            const minutesRemainder = Math.round(totalMinutes % 60);
-            setOverallHours(totalHours + hoursToAdd)
-            setOverallMinutes(minutesRemainder);
-        } else {
-            setOverallHours(totalHours);
-            setOverallMinutes(totalMinutes);
-        };
-    };
-
-    const handleAddTime = () => {
-        addLearningTime()
-        addPracticingTime();
-        addPerformingTime();
-        addOverallTime();
-    };
 
     const handleSaveChanges = () => {
         const updatedTable = {
@@ -315,7 +322,6 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
                 <p> <u>Performing</u>: {totalPerformingHours} hrs {totalPerformingMinutes} min</p>
                 <p> <strong>Total</strong>: {overallHours} hrs {overallMinutes} min</p>
                 <p> <strong>Total Goal</strong>: {totalGoalHours} hrs {totalGoalMinutes} min</p>
-                <span>{windowSize}</span>
 
                 <Dialog onClose={() => setEditOpen(false)} open={editOpen} fullWidth={true} maxWidth="md">
                 <Container className="table">
@@ -481,9 +487,7 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
                             <span><TextField required type="number" inputProps={{min: '0'}} label="Total Goal Minutes" defaultValue={activity.totalGoalMinutes} onChange={(e) => setTotalGoalMinutes(Number(e.target.value))} /> min</span>
                         </Grid>
                     </Grid>
-                    <p>Click "Add Time" twice before saving changes</p>
-                    <Button style={{margin: 'auto, 10px'}} variant='outlined' onClick={handleAddTime}>Add Time</Button> {/* have to double click to add total time */}
-                    <Button style={{}} variant='contained' onClick={handleSaveChanges}>Save Changes</Button>
+                    <Button style={{margin: '18px auto'}} variant='contained' onClick={handleSaveChanges}>Save Changes</Button>
                 </Container>
             </Dialog>
             </Card>
@@ -496,10 +500,8 @@ function Tables({ activity, year, onDelete, handleSnackBar }) {
             <Grid item>
                 <TextField required id="outlined-required" label="Skill" defaultValue={activity.skillName} onChange={(e) => setSkillName(e.target.value)} />
                 <div style={{display: 'block', margin: '20px 0px 10px 0px'}}>
-                    <p><em>Click "Add Time" twice before saving changes</em></p>
                     <Button variant='outlined' onClick={() => onDelete('table', activity)}>Delete</Button>
-                    <Button style={{margin: 'auto 10px'}} variant='outlined' onClick={handleAddTime}>Add Time</Button> {/* have to double click to add total time */}
-                    <Button  variant='contained' onClick={handleSaveChanges}>Save Changes</Button>
+                    <Button style={{marginLeft: '20px'}} variant='contained' onClick={handleSaveChanges}>Save Changes</Button>
                 </div>
             </Grid>
             <Grid item>
