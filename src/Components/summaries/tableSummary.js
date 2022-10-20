@@ -10,7 +10,7 @@ function TableSummary({ skill }) {
         if(minutes >= 60) {
             const hoursToAdd = Math.floor(minutes / 60);
             const minutesRemainder = Math.round(minutes % 60);
-            return <div>{hours + hoursToAdd}Hrs {minutesRemainder}Mins</div>;
+            return <div>{Number(hours) + hoursToAdd}Hrs {minutesRemainder}Mins</div>;
         } 
         return <div>{hours}Hrs {minutes}Mins</div>;
     };
