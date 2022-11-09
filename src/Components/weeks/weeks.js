@@ -10,25 +10,46 @@ function Weeks() {
     const { year, monthAndMonthID } = useParams();
     const navigate = useNavigate();
     const monthID = monthAndMonthID.replace(/^\D+/g, '');
+    const extractedMonth = monthAndMonthID.replace(/[^a-zA-Z]+/g, '');
 
     useEffect(() => {
-        Express.getWeeks(year, monthID).then(savedWeeks => setWeeks(savedWeeks))
-    }, []);
+        Express.getWeeks(year, monthID).then(savedWeeks => {
+            const descendingWeeks = [];
+            savedWeeks.forEach(week => {
+                week.week = Number(week.week.replace(/^\D+/g, ''))
+            })
+
+            let swapCount = 0
+            let swapping = true;
+            
+            while (swapping) {
+                swapping = false;
+                for (let i = 0; i < savedWeeks.length - 1; i++) {
+                    if (savedWeeks[i].week > savedWeeks[i + 1].week) {
+                        const temp = savedWeeks[i + 1];
+                        savedWeeks[i + 1] = savedWeeks[i];
+                        savedWeeks[i] = temp;
+
+                        swapCount++;
+                        swapping = true;
+                    }
+                }
+            }
+
+            setWeeks(savedWeeks)
+        } )
+    }, [weeks]);
 
 
     const dateChange = (e) => {
-        const extractedMonth = monthAndMonthID.replace(/[^a-zA-Z]+/g, '');
-        console.log(extractedMonth);
         setDate(`${extractedMonth} ${e.target.value}`)
     };
 
     const handleSaveWeek = () => {
         const week = {date, monthID}
-        Express.createWeek(year, week).then(responseOk => {
-            if(responseOk){
-                Express.getWeeks(year, monthID).then(savedWeeks => setWeeks(savedWeeks));
-            }
-        })
+        const repetitiveWeek = weeks.find(week => week.week === Number(date.replace(/^\D+/g, ''))); 
+        if(date === `${extractedMonth} ` || repetitiveWeek) return;
+        Express.createWeek(year, week);
     };
 
     const handleDeleteWeek = (e) => {
@@ -48,7 +69,7 @@ function Weeks() {
                 <div style={{textAlign: "center", paddingTop: '10px'}}>
                     <Link className="link" to={`/${year}/${monthAndMonthID}/${week.id}`}
                         key={week.id}>
-                        <h3>{week.week}</h3>
+                        <h3>{extractedMonth} {week.week}</h3>
                     </Link>
                     <Button style={{margin: '10px'}} variant='outlined' value={week.id} onClick={handleDeleteWeek}>Delete</Button>
                 </div>
